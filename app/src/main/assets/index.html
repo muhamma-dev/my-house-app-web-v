@@ -1,0 +1,2365 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<script>
+(function(){
+ if(location.hostname!=='appassets.androidplatform.net'||!window.MHNative)return;
+ var pend={},nid=1;
+ window.__nat=function(id,st,txt){var p=pend[id];if(!p)return;delete pend[id];
+  if(st<=0){p.rej(new Error('offline'));return}
+  p.res({status:st,ok:st>=200&&st<300,text:function(){return Promise.resolve(txt)},json:function(){try{return Promise.resolve(JSON.parse(txt))}catch(e){return Promise.reject(e)}}});};
+ var of=window.fetch;
+ window.fetch=function(u,o){o=o||{};var m=(o.method||'GET').toUpperCase();
+  if(typeof u==='string'&&u.indexOf('/api/')===0&&(o.body===undefined||typeof o.body==='string')){
+   return new Promise(function(res,rej){var id=nid++;pend[id]={res:res,rej:rej};
+    var tok=(o.headers&&(o.headers['X-Token']||o.headers['x-token']))||'';
+    MHNative.call(id,m,u,tok,o.body||'');
+    setTimeout(function(){if(pend[id]){delete pend[id];rej(new Error('timeout'))}},25000);});}
+  return of.apply(this,arguments);};
+ document.addEventListener('DOMContentLoaded',function(){var d=document.createElement('div');d.textContent='عن بُعد';d.style.cssText='position:fixed;top:6px;left:50%;transform:translateX(-50%);background:#ff9f0a;color:#1a1200;font:600 11px sans-serif;padding:3px 10px;border-radius:99px;z-index:99;opacity:.92;pointer-events:none';document.body.appendChild(d)});
+})();
+</script>
+
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b0d12">
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/icon.svg">
+<title>My House</title>
+<style>
+.row button.rico{border:0;cursor:pointer}.lic{display:inline-flex;vertical-align:middle;margin-inline-end:6px}.lic .i{width:18px;height:18px}
+.ichips{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}.ichips .chip{padding:8px 10px;display:inline-flex;align-items:center}.ichips .i{width:20px;height:20px}
+:root{--bg:#0b0d12;--card:#151922;--card2:#1f2430;--line:rgba(255,255,255,.06);--tx:#eef1f6;--mut:#8a93a3;--acc:#ffb83d;--soft:rgba(255,184,61,.16);--onacc:#1a1200;--ok:#34c759;--warn:#ff9f0a;--bad:#ff453a;--gd:right}
+[data-theme=light]{--bg:#f3f4f8;--card:#ffffff;--card2:#eceef3;--line:rgba(0,0,0,.06);--tx:#14171c;--mut:#667085;--acc:#f59e0b;--soft:rgba(245,158,11,.16);--onacc:#2a1800}
+[data-theme=amoled]{--bg:#000;--card:#0c0c0e;--card2:#1a1a1d;--acc:#ffc247;--soft:rgba(255,194,71,.15)}
+[data-theme=color]{--bg:#100f2b;--card:#1b1a44;--card2:#2a2960;--tx:#fff;--mut:#a9abd9;--acc:#ff7ad9;--soft:rgba(255,122,217,.2);--onacc:#2b0020}
+html[dir=rtl]{--gd:left}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;min-height:100vh;color:var(--tx);font-family:system-ui,-apple-system,"Segoe UI","Noto Sans Arabic",Roboto,Arial,sans-serif;background:radial-gradient(900px 420px at 50% -8%,var(--soft),transparent 70%),var(--bg);background-attachment:fixed;padding:env(safe-area-inset-top) 0 calc(108px + env(safe-area-inset-bottom))}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+svg.i{width:1em;height:1em;display:block}
+.hide{display:none!important}
+.top{display:flex;align-items:center;justify-content:space-between;padding:20px 18px 6px}
+.hello{font-size:13px;color:var(--mut)}
+.top h1{margin:2px 0 0;font-size:24px;letter-spacing:-.2px}
+.tools{display:flex;gap:8px}
+.ic{width:42px;height:42px;border-radius:14px;border:1px solid var(--line);background:var(--card);display:grid;place-items:center;font-size:20px}
+.ic.txt{font-size:13px;font-weight:700}
+.hero{margin:12px 14px 6px;padding:18px;border-radius:26px;background:linear-gradient(135deg,var(--soft),transparent 70%),var(--card);border:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:12px}
+.hero .big{font-size:46px;font-weight:800;line-height:1;letter-spacing:-1px}
+.hero .big small{font-size:18px;color:var(--mut);font-weight:600;margin-inline-start:4px}
+.hero .lbl{color:var(--mut);margin-top:6px;font-size:14px}
+.pill{display:inline-flex;align-items:center;gap:6px;margin-top:10px;font-size:12px;padding:5px 11px;border-radius:99px;background:var(--card2);color:var(--mut)}
+.pill i{width:8px;height:8px;border-radius:50%;background:var(--bad)}
+.pill.ok i{background:var(--ok);box-shadow:0 0 8px var(--ok)}
+.pill.warn i{background:var(--warn)}
+.alloff{display:flex;flex-direction:column;align-items:center;gap:6px;border:0;background:var(--card2);border-radius:20px;padding:14px 16px;font-size:12px;color:var(--mut)}
+.alloff .ico{font-size:26px;color:var(--tx)}
+.alloff:active{transform:scale(.96)}
+.sect{margin:18px 20px 8px;font-size:13px;color:var(--mut);font-weight:600}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 14px}
+.tile{position:relative;background:var(--card);border:1px solid var(--line);border-radius:24px;padding:16px;min-height:168px;display:flex;flex-direction:column;justify-content:space-between;transition:background .25s,box-shadow .25s,transform .12s;user-select:none}
+.tile:active{transform:scale(.985)}
+.tile.on{background:linear-gradient(160deg,var(--soft),transparent 75%),var(--card);box-shadow:0 12px 34px -14px var(--acc);border-color:var(--soft)}
+.ti{display:flex;align-items:center;justify-content:space-between}
+.ico{width:46px;height:46px;border-radius:15px;background:var(--card2);color:var(--mut);display:grid;place-items:center;font-size:26px;transition:all .25s}
+.tile.on .ico{background:var(--acc);color:var(--onacc);box-shadow:0 6px 18px -6px var(--acc)}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--card2)}
+.tile.on .dot{background:var(--acc);box-shadow:0 0 10px var(--acc)}
+.nm{font-size:17px;font-weight:700;margin-top:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.st{font-size:13px;color:var(--mut);margin:2px 0 12px}
+.tile.on .st{color:var(--tx)}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:12px;border-radius:99px;outline:0;margin:0;background:linear-gradient(to var(--gd),var(--acc) var(--v,100%),var(--card2) var(--v,100%));opacity:.45;transition:opacity .25s}
+.tile:not(.on) input[type=range]{background:var(--card2)}
+.tile.on input[type=range]{opacity:1}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.4);border:0}
+input[type=range]::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:#fff;border:0;box-shadow:0 2px 10px rgba(0,0,0,.4)}
+.grid{grid-auto-flow:dense}
+.tile.span2{grid-column:span 2}
+.acts{display:flex;gap:6px}
+.mp{flex:none;width:38px;height:38px;border-radius:12px;border:0;background:var(--card2);color:var(--mut);display:grid;place-items:center;font-size:19px}
+.mp.big{width:48px;height:48px;font-size:22px}
+html[dir=rtl] .rchev svg{transform:scaleX(-1)}
+.lights{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px}
+.lt{background:var(--card2);border-radius:16px;padding:10px 12px;border:1px solid var(--line)}
+.lt.on{box-shadow:inset 0 0 0 1px var(--acc)}
+.lh{display:flex;align-items:center;justify-content:space-between;gap:6px}
+.ln{font-weight:700;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ls{font-size:12px;color:var(--mut);margin:2px 0 8px}
+.lt .mp{width:32px;height:32px;font-size:16px;border-radius:10px;background:var(--card)}
+.lt.on .mp{background:var(--acc);color:var(--onacc)}
+.lt:not(.on) input[type=range]{background:rgba(127,127,127,.28);opacity:.6}
+.lt.on input[type=range]{opacity:1}
+.sheet .lt{background:var(--card);margin:10px 0}
+.rhead{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.rhead h2{flex:1;margin:0}
+.rhead .ico{background:var(--acc);color:var(--onacc)}
+.dock{background:var(--card);position:fixed;left:50%;transform:translateX(-50%);bottom:calc(16px + env(safe-area-inset-bottom));display:flex;gap:6px;padding:7px;border-radius:24px;background:color-mix(in srgb,var(--card) 82%,transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--line);box-shadow:0 14px 40px -12px rgba(0,0,0,.55);z-index:4}
+.dock button{display:flex;flex-direction:column;align-items:center;gap:3px;border:0;background:transparent;color:var(--mut);padding:9px 14px;min-width:66px;border-radius:18px;font-size:11px;font-weight:600}
+.dock button .i{font-size:22px}
+.dock button.act{background:var(--acc);color:var(--onacc)}
+.sheetbg{position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:flex-end;justify-content:center;z-index:8;backdrop-filter:blur(3px)}
+.sheet{background:var(--bg);width:100%;max-width:560px;max-height:92vh;overflow:auto;border-radius:28px 28px 0 0;padding:20px 16px 30px;border:1px solid var(--line)}
+.sheet h2{margin:0 0 14px;font-size:21px}
+.sec{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:14px;margin:12px 0}
+.sec h3{margin:0 0 10px;font-size:13px;color:var(--mut);font-weight:600;display:flex;align-items:center;gap:8px}
+.sec h3 .i{font-size:18px;color:var(--acc)}
+.fld{display:block;width:100%;padding:12px 14px;border-radius:14px;border:1px solid var(--line);background:var(--card2);color:var(--tx);margin:6px 0;outline:0}
+.fld:focus{border-color:var(--acc)}
+.row{display:flex;align-items:center;gap:8px;margin:8px 0}
+.row .fld{margin:0;flex:1}
+.row .rico{flex:none;width:40px;height:40px;border-radius:12px;background:var(--card2);color:var(--acc);display:grid;place-items:center;font-size:22px}
+.btn{border:0;border-radius:15px;padding:13px 20px;background:var(--acc);color:var(--onacc);font-weight:800}
+.btn:active{transform:scale(.97)}
+.btn.sec2{background:var(--card2);color:var(--tx);font-weight:600}
+.btn.bad{background:var(--bad);color:#fff}
+.btn.sm{padding:9px 13px;font-size:13px}
+.btn:disabled{opacity:.5}
+.msg{font-size:13px;color:var(--mut);min-height:18px;margin:2px 2px 4px}
+.msg.err{color:var(--bad)}
+.msg:empty{display:none}
+.wiz{max-width:520px;margin:0 auto;padding:26px 18px}
+.wiz .logo{width:68px;height:68px;border-radius:22px;background:var(--acc);color:var(--onacc);display:grid;place-items:center;font-size:38px;margin:6px 0 14px;box-shadow:0 12px 30px -10px var(--acc)}
+.wiz h2{margin:6px 0 4px;font-size:26px}
+.wiz p{color:var(--mut);margin:4px 0 16px;line-height:1.6}
+.nav{display:flex;justify-content:space-between;gap:10px;margin-top:20px}
+.dots{display:flex;gap:6px;margin-bottom:18px}
+.dots i{flex:1;height:5px;border-radius:5px;background:var(--card2);transition:background .3s}
+.dots i.d{background:var(--acc)}
+#toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%) translateY(10px);background:var(--card2);color:var(--tx);padding:11px 18px;border-radius:14px;opacity:0;pointer-events:none;transition:all .25s;z-index:20;border:1px solid var(--line);box-shadow:0 10px 30px -10px rgba(0,0,0,.5)}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.seg{display:flex;background:var(--card2);border-radius:14px;padding:3px;gap:3px;margin:6px 0}
+.seg button{flex:1;border:0;background:transparent;border-radius:11px;padding:10px 6px;font-weight:600;color:var(--mut);font-size:13px}
+.seg button.on{background:var(--acc);color:var(--onacc)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0}
+.chip{border:1px solid var(--line);background:var(--card2);color:var(--mut);border-radius:99px;padding:8px 14px;font-size:13px;font-weight:600}
+.chip.on{background:var(--acc);color:var(--onacc);border-color:transparent}
+.grp{font-size:12px;color:var(--mut);margin:8px 2px 0}
+.sw{width:50px;height:30px;border-radius:99px;border:0;background:var(--card2);position:relative;flex:none;transition:background .2s}
+.sw i{position:absolute;top:3px;inset-inline-start:3px;width:24px;height:24px;border-radius:50%;background:#fff;transition:inset-inline-start .2s;box-shadow:0 2px 6px rgba(0,0,0,.35)}
+.sw.on{background:var(--acc)}
+.sw.on i{inset-inline-start:23px}
+.sc{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:12px;margin:10px 0}
+.sc .ico{flex:none;width:42px;height:42px;font-size:22px}
+.sc.off{opacity:.55}
+.sc .mid{flex:1;min-width:0}
+.sc .t1{font-weight:700;font-size:15px}
+.sc .t2{font-size:12px;color:var(--mut);margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.warn2{background:var(--soft);border-radius:14px;padding:10px 12px;font-size:13px;margin:8px 0}
+.sunrow{display:flex;gap:10px;margin:8px 0}
+.sunrow div{flex:1;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:10px 12px;font-size:13px;color:var(--mut);display:flex;align-items:center;gap:8px}
+.sunrow b{color:var(--tx);font-size:16px;margin-inline-start:auto}
+.sunrow .i{font-size:20px;color:var(--acc)}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:12px 8px;text-align:center;min-width:0}
+.kpi .i{font-size:20px;color:var(--acc);margin:0 auto 6px}
+.kpi b{display:block;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kpi span{display:block;font-size:11px;color:var(--mut);margin-top:3px}
+.live{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--mut);margin:4px 2px 8px}
+.live i{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 8px var(--ok)}
+.live b{color:var(--tx)}
+.chart{display:flex;gap:3px;height:150px;margin-top:6px}
+.cb{flex:1;display:flex;flex-direction:column;align-items:center;min-width:0;cursor:pointer}
+.cw{flex:1;display:flex;align-items:flex-end;width:100%}
+.cbar{width:100%;border-radius:6px 6px 3px 3px;background:var(--acc);opacity:.45;min-height:0;transition:height .3s}
+.cbar.td{opacity:1}
+.cl{font-size:10px;color:var(--mut);height:14px;margin-top:4px;white-space:nowrap}
+.rk{display:block;width:100%;text-align:start;border:0;background:var(--card2);border-radius:14px;padding:10px 12px;margin:8px 0}
+.rk .rt{display:flex;justify-content:space-between;gap:8px;font-size:14px;font-weight:600}
+.rk .rt span:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rk .rt span:last-child{color:var(--mut);white-space:nowrap;font-weight:500}
+.rk .rb{height:6px;border-radius:6px;background:var(--card);margin-top:8px;overflow:hidden}
+.rk .rb i{display:block;height:100%;border-radius:6px;background:var(--acc)}
+.bk svg{transform:scaleX(-1)}
+html[dir=rtl] .bk svg{transform:none}
+.inrow{display:flex;align-items:center;gap:8px;margin:6px 0}
+.inrow .lab{flex:1;min-width:0;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.inrow .fld{flex:0 0 96px;margin:0;text-align:center}
+.kv{display:flex;justify-content:space-between;gap:10px;padding:9px 2px;border-bottom:1px solid var(--line);font-size:14px}
+.kv:last-child{border-bottom:0}
+.kv span:first-child{color:var(--mut)}
+.kv b{font-weight:600}
+.dock button{padding:9px 8px;min-width:58px}
+.scs{display:flex;gap:10px;overflow-x:auto;padding:2px 14px 8px;scrollbar-width:none}
+.scs::-webkit-scrollbar{display:none}
+.scc{flex:none;display:flex;align-items:center;gap:9px;border:1px solid var(--line);background:var(--card);border-radius:18px;padding:11px 15px;font-weight:700;font-size:14px;white-space:nowrap}
+.scc .i{font-size:20px;color:var(--acc)}
+.scc:active{transform:scale(.96)}
+.vbar{margin:10px 14px 0;padding:11px 14px;border-radius:18px;background:var(--soft);border:1px solid var(--line);display:flex;align-items:center;gap:10px;font-size:13px;width:calc(100% - 28px);text-align:start}
+.vbar .i{font-size:20px;color:var(--acc);flex:none}
+.vbar b{margin-inline-start:auto;white-space:nowrap}
+.lrow{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:10px 12px;margin:8px 0}
+.lrow .ln{font-size:14px}
+.lrow .seg{margin:8px 0 0}
+.lrow .seg button{padding:8px 4px;font-size:12px}
+.chip.ci{padding:9px 13px;font-size:20px;display:inline-flex}
+.ev{display:flex;align-items:center;gap:12px;padding:10px 2px;border-bottom:1px solid var(--line)}
+.ev:last-child{border-bottom:0}
+.ev .ico{flex:none;width:38px;height:38px;font-size:19px;border-radius:12px}
+.ev .mid{flex:1;min-width:0}
+.ev .t1{font-weight:600;font-size:14px}
+.ev .t2{font-size:12px;color:var(--mut);margin-top:2px}
+@media(min-width:700px){.grid{grid-template-columns:repeat(4,1fr);max-width:980px;margin:0 auto}.hero,.top{max-width:980px;margin-inline:auto}}
+.gp{display:flex;align-items:center;gap:10px;padding:9px 2px;border-bottom:1px solid var(--line);font-size:13px}
+.gp:last-child{border-bottom:0}
+.gp .pn{flex:none;min-width:70px;font-weight:700;direction:ltr;text-align:start}
+.gp .nm{flex:1;min-width:0;margin:0;font-size:13px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.gp .vl{flex:none;color:var(--mut);direction:ltr;white-space:nowrap;text-align:end}
+.gp .bar{flex:0 0 64px;height:6px;border-radius:6px;background:var(--card2);overflow:hidden}
+.gp .bar i{display:block;height:100%;background:var(--acc)}
+.gd{flex:none;width:10px;height:10px;border-radius:50%;background:var(--card2);border:1px solid var(--line)}
+.gd.on{background:var(--ok);border-color:transparent;box-shadow:0 0 8px var(--ok)}
+.gd.bad{background:var(--bad);border-color:transparent}
+.dz{border:2px dashed var(--line);border-radius:16px;padding:18px 12px;text-align:center;color:var(--mut);margin:10px 0;cursor:pointer}
+.dz.over{border-color:var(--acc);color:var(--tx)}
+.fl{display:flex;align-items:center;gap:10px;padding:10px 2px;border-bottom:1px solid var(--line);font-size:14px}
+.fl>span.i{flex:none;font-size:18px;color:var(--mut);display:grid}
+.fl .nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;direction:ltr;text-align:start}
+.fl .sz{flex:none;color:var(--mut);font-size:12px;direction:ltr}
+.ic.sm{width:34px;height:34px;border-radius:11px;font-size:16px;flex:none}
+.prog{height:6px;border-radius:6px;background:var(--card2);overflow:hidden;margin:8px 0}
+.prog i{display:block;height:100%;background:var(--acc);width:0}
+.mqp{display:block;width:100%;background:#000;border-radius:10px;image-rendering:pixelated;border:1px solid var(--line);margin:10px 0}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="modal" class="sheetbg hide"></div>
+<div id="toast"></div>
+<script>
+const L={
+ar:{title:'My House',gm:'صباح الخير',ge:'مساء الخير',conn:'متصل',apm:'شبكة الطوارئ',offl:'غير متصل',off:'مطفأ',on:'مشغّل',lon:'أضوية مشغّلة',alloff:'إطفاء الكل',rooms:'الغرف',home:'الرئيسية',
+settings:'الإعدادات',close:'إغلاق',pinT:'أدخل رمز المدير',login:'دخول',wrong:'الرمز غلط',locked:'محاولات كتير، استنى دقيقة',save:'حفظ',saved:'تم الحفظ',next:'التالي',back:'رجوع',skip:'تخطي',
+roomName:'اسم الغرفة',pair:'ربط المفتاح',flip:'قلّب مفتاح الغرفة بالحائط الآن',flipback:'رجّع المفتاح لوضعو الأول',paired:'تم الربط، مفتاح رقم',failed:'ما انلقى تغيير، جرّب مرة تانية',
+fade:'مدة الانتقال الناعم (ملي ثانية)',wifi:'واي فاي البيت',scan:'بحث',ssid:'اسم الشبكة',pass:'كلمة السر',own:'شبكة الجهاز الاحتياطية',ownH:'بتظهر لما الراوتر ينطفي',
+chPin:'تغيير الرمز',oldPin:'الرمز الحالي',newPin:'الرمز الجديد (6 أرقام)',upd:'تحديث البرنامج',up:'رفع وتثبيت',
+restart:'إعادة تشغيل الجهاز',factory:'مسح كل الإعدادات',sure:'متأكد؟',wTitle:'أهلاً فيك',wText:'رح نجهّز الجهاز بخطوات بسيطة.',
+wPin:'رمز المدير',wPinH:'6 أرقام، بتحمي الإعدادات من التغيير بالغلط',pin2:'أعد كتابة الرمز',pinBad:'الرمز لازم يكون 6 أرقام',pinMis:'الرمزين مش متطابقين',
+wWifi:'واي فاي البيت',wOwn:'شبكة الجهاز',wOwnH:'كلمة السر 8 أحرف على الأقل',wFb:'الرابط الخفي للتطبيق',wFbH:'اختياري. بيخلي التطبيق يشتغل برا البيت. بتحط عنوان قاعدة Firebase ومفتاح الواجهة (الخطوات بملف README). بتقدر تتخطاه وتحطو بعدين من الإعدادات.',wFbBad:'العنوان لازم يبدأ بـ https:// والمفتاح أطول',wRooms:'الغرف والمفاتيح',wRoomsH:'سمّي كل غرفة واربطها بمفتاحها (اختياري)',
+lights:'الأضوية',lightName:'اسم الضوء',addRoom:'إضافة غرفة',newRoom:'غرفة جديدة',emptyRoom:'غرفة فاضية، اختار لها ضوء من قسم الأضوية',maxRooms:'وصلت للحد الأقصى (8 غرف)',master:'كل الأضوية',
+fin:'إنهاء',sched:'الجداول',newSched:'جدول جديد',editSched:'تعديل الجدول',noSched:'ما في جداول بعد. اضغط + لإضافة جدول',act:'الإجراء',turnOn:'تشغيل',turnOff:'إطفاء',keepBri:'نفس السطوع الأخير',briL:'السطوع',trig:'متى',atTime:'وقت محدد',sunrise:'الشروق',sunset:'الغروب',exact:'بالضبط',before:'قبل',after:'بعد',mn:'د',days:'الأيام',everyDay:'كل يوم',lightsT:'الأضوية',all:'الكل',del:'حذف',needLoc:'حدّد الموقع تحت حتى تشتغل جداول الشروق والغروب',noTime:'الساعة مش مضبوطة بعد. افتح التطبيق من موبايل أو وصّل الجهاز بالإنترنت',locT:'الموقع والوقت',city:'اختر مدينة',custom:'موقع مخصص',lat:'خط العرض',lon:'خط الطول',tzNow:'توقيت الجهاز',tzMis:'توقيت موبايلك مختلف عن الجهاز',tzSync:'استخدم توقيت هذا الموبايل',todayT:'اليوم',pickLight:'اختر ضوء واحد على الأقل',pickDay:'اختر يوم واحد على الأقل',autoOff:'إطفاء تلقائي',aoNone:'بدون',aoIn:'ينطفي بعد',aoMixed:'مختلط',needPin:'محتاج رمز المدير',unlock:'فتح',done:'تم الإعداد. الجهاز عم يعيد التشغيل. وصّل موبايلك بواي فاي البيت وافتح:',theme:'الثيم',lang:'EN',pwHint:'8 أحرف على الأقل',err:'صار خطأ',maint:'الصيانة',stats:'الإحصائيات',today:'اليوم',d7:'7 أيام',d30:'30 يوم',allT:'الكل',hrs:'ساعات التشغيل',energy:'الطاقة',cost:'التكلفة',hr:'س',nowP:'الاستهلاك الآن',byLight:'حسب الضوء',noUse:'ما في استخدام مسجّل بهالفترة',noWatts:'ما حددت استطاعة الأضوية بالواط، فالطاقة والتكلفة بتظهر صفر',noPrice:'حدّد سعر الكيلوواط ساعة حتى تظهر التكلفة',noClock:'الساعة مش مضبوطة، فالرسم اليومي ما بيشتغل. افتح التطبيق من موبايل أو وصّل الجهاز بالإنترنت',openSet:'فتح الإعدادات',usageT:'الاستخدام',details:'التفاصيل',energyT:'الطاقة والتكلفة',energyH:'اكتب استطاعة كل ضوء على سطوع 100% بالواط. الحساب بياخد السطوع بعين الاعتبار',priceL:'سعر الكيلوواط ساعة',curL:'العملة (مثال: JD)',powerL:'الاستطاعة',switchOns:'مرات التشغيل',sinceT:'منذ',totalT:'المجموع الكلي',resetOne:'تصفير إحصائيات هذا الضوء',resetAll:'تصفير كل الإحصائيات',resetDone:'تم التصفير',c7:'آخر 7 أيام',c30:'آخر 30 يوم',perUse:'مدة التشغيل',scenes:'المشاهد',newScene:'مشهد جديد',editScene:'تعديل المشهد',noScenes:'ما في مشاهد بعد. اضغط + لإضافة مشهد',sceneName:'اسم المشهد',sceneIcon:'الأيقونة',stKeep:'بدون تغيير',stOff:'إطفاء',stOn:'تشغيل',capture:'خذ الوضع الحالي للأضوية',capDone:'انأخد الوضع الحالي',pickAny:'اختار ضوء واحد على الأقل',needName:'اكتب اسم للمشهد',sceneApplied:'تم تطبيق المشهد',tapApply:'اضغط لتطبيق المشهد',maxScenes:'وصلت للحد الأقصى (8 مشاهد)',litN:'أضوية مشغّلة',vacT:'وضع السفر',vacH:'الجهاز بيعيد عاداتك اللي تعلّمها (أي أضوية بتشغّلها ومتى) حتى يبين إنو في حدا بالبيت',vacOn:'وضع السفر شغّال',vacLeft:'بيتبقى',vacStart:'ابدأ',vacStop:'إيقاف وضع السفر',vacFor:'المدة',dayU:'يوم',vacLearn:'الجهاز تعلّم من عاداتك خلال',vacNone:'لسا ما تعلّم شي. استعمل الأضوية بشكل طبيعي كم يوم',vacLow:'لسا بيتعلم. الأفضل تستنى أسبوع على الأقل حتى تصير المحاكاة قريبة من عاداتك',vacNote:'الجداول والإطفاء التلقائي بيتوقفوا أثناء وضع السفر',vacNoTime:'الساعة مش مضبوطة، ما بيشتغل وضع السفر',vacStarted:'بدأ وضع السفر',vacStopped:'تم إيقاف وضع السفر',logT:'سجل الأحداث',logEmpty:'ما في أحداث بعد',logClear:'مسح السجل',logAll:'الكل',logManual:'يدوي',logAuto:'تلقائي',logSys:'النظام',logNoTime:'الوقت غير معروف',yday:'أمس',evOn:'شغّل',evOff:'أطفأ',evAllOn:'تشغيل كل الأضوية',evAllOff:'إطفاء كل الأضوية',evScene:'مشهد',evSchedOn:'جدول: تشغيل',evSchedOff:'جدول: إطفاء',evVacStart:'بدأ وضع السفر',evVacStop:'انوقف وضع السفر',evVacEnd:'خلص وقت وضع السفر',evBoot:'تشغيل الجهاز',bootPower:'بعد انقطاع الكهربا',bootSw:'إعادة تشغيل عادية',bootCrash:'بعد عطل بالبرنامج',bootBrown:'هبوط بالجهد',bootOther:'سبب تاني',srcApp:'التطبيق',srcWall:'مفتاح الحائط',srcSched:'جدول',srcAuto:'إطفاء تلقائي',srcScene:'مشهد',srcVac:'وضع السفر',srcSys:'النظام'},
+en:{title:'My House',gm:'Good morning',ge:'Good evening',conn:'Connected',apm:'Backup network',offl:'Offline',off:'Off',on:'On',lon:'lights on',alloff:'All off',rooms:'Rooms',home:'Home',
+settings:'Settings',close:'Close',pinT:'Enter admin PIN',login:'Login',wrong:'Wrong PIN',locked:'Too many tries, wait a minute',save:'Save',saved:'Saved',next:'Next',back:'Back',skip:'Skip',
+roomName:'Room name',pair:'Pair switch',flip:'Flip the wall switch of this room now',flipback:'Flip it back',paired:'Paired, switch #',failed:'No change detected, try again',
+fade:'Smooth fade time (ms)',wifi:'Home Wi-Fi',scan:'Scan',ssid:'Network name',pass:'Password',own:'Device backup network',ownH:'Shown when the router is off',
+chPin:'Change PIN',oldPin:'Current PIN',newPin:'New PIN (6 digits)',upd:'Firmware update',up:'Upload and install',
+restart:'Restart device',factory:'Erase all settings',sure:'Are you sure?',wTitle:'Welcome',wText:'Let us set the device up in a few simple steps.',
+wPin:'Admin PIN',wPinH:'6 digits, protects the settings from accidental changes',pin2:'Repeat the PIN',pinBad:'PIN must be 6 digits',pinMis:'PINs do not match',
+wWifi:'Home Wi-Fi',wOwn:'Device network',wOwnH:'Password needs 8 characters or more',wFb:'Hidden link for the app',wFbH:'Optional. Lets the app work away from home. Enter the Firebase database address and the web API key (steps are in the README). You can skip it and add it later in Settings.',wFbBad:'The address must start with https:// and the key must be longer',wRooms:'Rooms and switches',wRoomsH:'Name each room and pair its switch (optional)',
+lights:'Lights',lightName:'Light name',addRoom:'Add room',newRoom:'New room',emptyRoom:'Empty room, assign a light from the Lights section',maxRooms:'Maximum reached (8 rooms)',master:'All lights',
+fin:'Finish',sched:'Schedules',newSched:'New schedule',editSched:'Edit schedule',noSched:'No schedules yet. Tap + to add one',act:'Action',turnOn:'Turn on',turnOff:'Turn off',keepBri:'Keep last brightness',briL:'Brightness',trig:'When',atTime:'Fixed time',sunrise:'Sunrise',sunset:'Sunset',exact:'Exactly',before:'Before',after:'After',mn:'min',days:'Days',everyDay:'Every day',lightsT:'Lights',all:'All',del:'Delete',needLoc:'Set the location below so sunrise and sunset schedules can run',noTime:'The clock is not set yet. Open the app from a phone or connect the device to the internet',locT:'Location and time',city:'Pick a city',custom:'Custom location',lat:'Latitude',lon:'Longitude',tzNow:'Device time zone',tzMis:'Your phone time zone differs from the device',tzSync:'Use this phone time zone',todayT:'Today',pickLight:'Pick at least one light',pickDay:'Pick at least one day',autoOff:'Auto-off',aoNone:'Off',aoIn:'Turns off in',aoMixed:'Mixed',needPin:'Admin PIN required',unlock:'Unlock',done:'Setup complete. The device is restarting. Connect your phone to the home Wi-Fi and open:',theme:'Theme',lang:'AR',pwHint:'8 characters or more',err:'Something went wrong',maint:'Maintenance',stats:'Statistics',today:'Today',d7:'7 days',d30:'30 days',allT:'All time',hrs:'On time',energy:'Energy',cost:'Cost',hr:'h',nowP:'Power now',byLight:'By light',noUse:'No usage recorded for this period',noWatts:'Light power (watts) is not set, so energy and cost show zero',noPrice:'Set the price per kWh to see the cost',noClock:'The clock is not set, so the daily chart is off. Open the app from a phone or connect the device to the internet',openSet:'Open settings',usageT:'Usage',details:'Details',energyT:'Energy and cost',energyH:'Enter each light power at 100% brightness in watts. Dimming is taken into account',priceL:'Price per kWh',curL:'Currency (e.g. JD)',powerL:'Rated power',switchOns:'Times switched on',sinceT:'Since',totalT:'Lifetime',resetOne:'Reset this light statistics',resetAll:'Reset all statistics',resetDone:'Reset done',c7:'Last 7 days',c30:'Last 30 days',perUse:'On time',scenes:'Scenes',newScene:'New scene',editScene:'Edit scene',noScenes:'No scenes yet. Tap + to add one',sceneName:'Scene name',sceneIcon:'Icon',stKeep:'No change',stOff:'Off',stOn:'On',capture:'Take the lights as they are now',capDone:'Current state taken',pickAny:'Pick at least one light',needName:'Type a name for the scene',sceneApplied:'Scene applied',tapApply:'Tap to apply the scene',maxScenes:'Maximum reached (8 scenes)',litN:'lights on',vacT:'Vacation mode',vacH:'The device replays the habits it has learned (which lights you use and when) so the house looks lived in',vacOn:'Vacation mode is on',vacLeft:'left',vacStart:'Start',vacStop:'Stop vacation mode',vacFor:'Duration',dayU:'day(s)',vacLearn:'The device has been learning your habits for',vacNone:'Nothing learned yet. Use the lights normally for a few days',vacLow:'Still learning. Best to wait at least a week so the replay looks like your habits',vacNote:'Schedules and auto-off are paused during vacation mode',vacNoTime:'The clock is not set, vacation mode cannot run',vacStarted:'Vacation mode started',vacStopped:'Vacation mode stopped',logT:'Event log',logEmpty:'No events yet',logClear:'Clear the log',logAll:'All',logManual:'Manual',logAuto:'Automatic',logSys:'System',logNoTime:'Time unknown',yday:'Yesterday',evOn:'on',evOff:'off',evAllOn:'All lights on',evAllOff:'All lights off',evScene:'Scene',evSchedOn:'Schedule: on',evSchedOff:'Schedule: off',evVacStart:'Vacation mode started',evVacStop:'Vacation mode stopped',evVacEnd:'Vacation mode time is up',evBoot:'Device started',bootPower:'after a power cut',bootSw:'normal restart',bootCrash:'after a software crash',bootBrown:'voltage dip',bootOther:'other reason',srcApp:'App',srcWall:'Wall switch',srcSched:'Schedule',srcAuto:'Auto-off',srcScene:'Scene',srcVac:'Vacation mode',srcSys:'System'}
+};
+Object.assign(L.ar,{"ac_login": "تسجيل الدخول", "ac_who": "مين عم يستخدم؟", "ac_pin": "أدخل الرمز", "ac_adminDef": "المدير", "ac_r0": "المدير", "ac_r1": "مدير ثاني", "ac_r2": "ولي أمر", "ac_r3": "طفل", "ac_d1": "بيعدّل كل شي، بس ما بيدير الحسابات ولا بيمسح الجهاز", "ac_d2": "بيتحكم بكل الأضوية والمشاهد وبيشوف الإحصائيات والسجل، بدون تعديل الإعدادات", "ac_d3": "بيتحكم بأضوية غرفته بس", "ac_mine": "حسابي", "ac_guest": "بدون دخول", "ac_logout": "تسجيل خروج", "ac_switch": "دخول بحساب تاني", "ac_noPerm": "ما عندك صلاحية لهالإجراء", "ac_title": "الحسابات والصلاحيات", "ac_add": "إضافة حساب", "ac_edit": "تعديل الحساب", "ac_name": "اسم الحساب", "ac_role": "الصلاحية", "ac_kidL": "الغرف المسموحة للطفل", "ac_pinNew": "الرمز (6 أرقام)", "ac_pinKeep": "رمز جديد (اتركه فاضي إذا ما بدك تغيّره)", "ac_del": "حذف الحساب", "ac_outOne": "إخراج من كل الأجهزة", "ac_outAll": "إخراج الجميع من كل الأجهزة", "ac_outDone": "تم الإخراج", "ac_empty": "ما في حسابات تانية بعد. اضغط + لإضافة حساب", "ac_lr": "طلب تسجيل الدخول للتحكم", "ac_lrH": "مفعّل: ما حدا بيتحكم بالأضوية من الموبايل قبل ما يسجّل دخول، وهيك بتشتغل حدود الأطفال. موقوف: أي موبايل على الشبكة بيتحكم بكل الأضوية بدون دخول، وحدود الأطفال ما بتشتغل. مفاتيح الحيطان شغّالة دايماً.", "ac_sessH": "الجلسات: المدير ومدير ثاني 30 دقيقة بدون استخدام، الباقي 12 يوم. إعادة تشغيل الجهاز بتطلّع الكل.", "ac_eDup": "في حساب بنفس الاسم", "ac_eName": "اكتب اسم (12 حرف بالكتير)", "ac_eAdm2": "في مدير ثاني بالفعل", "ac_eFull": "وصلت للحد الأقصى (8 حسابات)", "ac_eLights": "اختار غرفة وحدة على الأقل للطفل", "ac_confirmDel": "بدك تحذف هالحساب؟", "ac_tools": "الحسابات", "ac_delAcc": "حساب محذوف", "gp_title": "شاشة GPIO", "gp_h": "قراءة حيّة للأطراف والمداخل والنظام، بتتحدث كل ثانية", "gp_out": "المخارج (PWM للأضوية)", "gp_in": "المداخل (مفاتيح الحيطان)", "gp_free": "غير مربوط", "gp_dev": "أجهزة تانية", "gp_oled": "شاشة OLED", "gp_found": "موجودة", "gp_missing": "ما انلقت", "gp_sd": "كرت SD", "gp_res": "محجوز (الخطوة 6)", "gp_boot": "زر BOOT", "gp_pressed": "مضغوط", "gp_rel": "مفلوت", "gp_sys": "حالة النظام", "gp_up": "مدة التشغيل", "gp_heap": "الذاكرة الحرة", "gp_ps": "PSRAM الحرة", "gp_fl": "حجم الفلاش", "gp_tmp": "حرارة الشريحة", "gp_rssi": "قوة الواي فاي", "gp_rst": "سبب آخر تشغيل", "gp_cl": "أجهزة على شبكة الطوارئ", "gp_fw": "نسخة البرنامج", "gp_inv": "المخرج معكوس: الطرف بينزل لواطي لما الضوء يشتغل. رقم PWM هو النسبة الفعلية.", "gp_thr": "عتبة", "gp_hi": "عالي", "gp_lo": "واطي"});
+Object.assign(L.en,{"ac_login": "Login", "ac_who": "Who is using it?", "ac_pin": "Enter your PIN", "ac_adminDef": "Admin", "ac_r0": "Admin", "ac_r1": "Second admin", "ac_r2": "Parent", "ac_r3": "Kid", "ac_d1": "Can change everything, except managing accounts and erasing the device", "ac_d2": "Controls all lights and scenes, sees statistics and the log, cannot change settings", "ac_d3": "Controls the lights of the chosen rooms only", "ac_mine": "My account", "ac_guest": "Not logged in", "ac_logout": "Log out", "ac_switch": "Log in with another account", "ac_noPerm": "You do not have permission for this", "ac_title": "Accounts and permissions", "ac_add": "Add account", "ac_edit": "Edit account", "ac_name": "Account name", "ac_role": "Role", "ac_kidL": "Rooms this kid may control", "ac_pinNew": "PIN (6 digits)", "ac_pinKeep": "New PIN (leave empty to keep it)", "ac_del": "Delete account", "ac_outOne": "Sign out of all devices", "ac_outAll": "Sign everybody out of all devices", "ac_outDone": "Signed out", "ac_empty": "No other accounts yet. Tap + to add one", "ac_lr": "Require login to control", "ac_lrH": "On: nobody controls the lights from a phone before logging in, so the kid limits work. Off: any phone on the network controls all lights without login and the kid limits do not apply. Wall switches always work.", "ac_sessH": "Sessions: admins 30 minutes idle, everybody else 12 days. Restarting the device signs everyone out.", "ac_eDup": "An account with this name exists", "ac_eName": "Type a name (12 characters at most)", "ac_eAdm2": "There is already a second admin", "ac_eFull": "Maximum reached (8 accounts)", "ac_eLights": "Pick at least one room for the kid", "ac_confirmDel": "Delete this account?", "ac_tools": "Accounts", "ac_delAcc": "Deleted account", "gp_title": "GPIO screen", "gp_h": "Live view of pins, inputs and system, refreshed every second", "gp_out": "Outputs (light PWM)", "gp_in": "Inputs (wall switches)", "gp_free": "Not paired", "gp_dev": "Other devices", "gp_oled": "OLED display", "gp_found": "Found", "gp_missing": "Not found", "gp_sd": "SD card", "gp_res": "Reserved (step 6)", "gp_boot": "BOOT button", "gp_pressed": "Pressed", "gp_rel": "Released", "gp_sys": "System", "gp_up": "Uptime", "gp_heap": "Free memory", "gp_ps": "Free PSRAM", "gp_fl": "Flash size", "gp_tmp": "Chip temperature", "gp_rssi": "Wi-Fi signal", "gp_rst": "Last start reason", "gp_cl": "Devices on the backup network", "gp_fw": "Firmware", "gp_inv": "The output is inverted: the pin goes low when the light is on. The PWM number is the real duty.", "gp_thr": "Threshold", "gp_hi": "High", "gp_lo": "Low"});
+Object.assign(L.ar,{"sd_title": "كرت SD", "sd_card": "الكرت", "sd_state": "الحالة", "sd_found": "موجود", "sd_none": "مو موجود", "sd_type": "النوع", "sd_size": "الحجم", "sd_used": "المستخدم", "sd_pins": "الأطراف", "sd_check": "إعادة فحص الكرت", "sd_space": "احسب المساحة", "sd_scan": "كشف ترتيب التوصيل", "sd_scanH": "الجهاز رح يجرّب كل ترتيبات الأسلاك الممكنة للأطراف 38 إلى 41 لحد ما يلاقي الكرت (لحد دقيقة). استعمل هالخيار بس إذا الكرت مركّب والفحص العادي ما لقاه. كمّل؟", "sd_scanning": "عم يجرّب", "sd_scanOk": "انلقى الكرت وانحفظ ترتيب التوصيل", "sd_scanNo": "ما انلقى كرت بأي ترتيب. تأكد إنو الكرت مركّب ومفرمت FAT32", "sd_noH": "ركّب الكرت (FAT32) واضغط إعادة فحص الكرت", "sd_files": "الملفات", "sd_open": "فتح مدير الملفات", "sd_up": "مجلد أعلى", "sd_drop": "اسحب الملفات هون أو اضغط للاختيار", "sd_mkdir": "مجلد جديد", "sd_folderName": "اسم المجلد (حروف إنجليزية وأرقام)", "sd_empty": "المجلد فاضي", "sd_sysLock": "مجلد النظام محمي: بتقدر تفتحو وتحمّل منو بس، ما بتقدر ترفع أو تعدّل أو تمسح فيه. النسخ الاحتياطية بتنمسح من قسم النسخ الاحتياطي.", "sd_dl": "تحميل", "sd_del": "حذف", "sd_delQ": "بدك تحذف؟", "sd_uploaded": "انرفعت", "sd_bk": "النسخ الاحتياطي", "sd_bkH": "النسخة بتحفظ: أسماء الأضوية والغرف والسطوع وربط المفاتيح ومعايرتها، الجداول والمشاهد، الإحصائيات، العادات المتعلَّمة وإعدادات الطاقة. ما بتحفظ الحسابات ولا رموز الدخول ولا كلمات الواي فاي، لأن أي حدا بيسحب الكرت بيقدر يقرأها.", "sd_bkNow": "خذ نسخة هلق", "sd_bkAuto": "نسخة تلقائية", "sd_off": "موقوف", "sd_daily": "كل يوم", "sd_weekly": "كل أسبوع", "sd_bkLast": "آخر نسخة", "sd_bkEmpty": "ما في نسخ بعد", "sd_restore": "استرجاع", "sd_restoreQ": "رح يرجّع إعدادات هالنسخة وبيعيد تشغيل الجهاز. الحسابات والواي فاي ما بيتغيروا. كمّل؟", "sd_restoring": "عم يرجّع ويعيد التشغيل...", "sd_bkDone": "تمت النسخة", "sd_noDate": "بدون تاريخ", "sd_eSys": "مجلد النظام محمي", "sd_eNo": "ما في كرت", "sd_eExists": "الاسم مستخدم", "sd_eName": "اسم أو مسار غير مقبول (حروف إنجليزية وأرقام و - _ . بس)", "sd_eIo": "فشلت العملية، افحص الكرت", "sd_eBad": "ملف النسخة غير صالح", "mq_title": "نص على الشاشة", "mq_h": "اكتب نص بيمرّ على شاشة OLED الصغيرة. بيشتغل بالعربي والإنجليزي.", "mq_ph": "اكتب النص", "mq_speed": "السرعة", "mq_slow": "بطيء", "mq_med": "عادي", "mq_fast": "سريع", "mq_rep": "التكرار", "mq_send": "اعرض", "mq_stop": "إيقاف", "mq_sent": "انرسل للشاشة", "mq_stopped": "تم الإيقاف", "mq_long": "النص طويل، قصّره شوي", "mq_noOled": "الشاشة مو موجودة", "mq_fit": "بيتّسع على الشاشة، رح يظهر ثابت", "mq_scroll": "رح يمرّ على الشاشة", "gp_sdOn": "شغّال", "gp_sdOff": "مو شغّال"});
+Object.assign(L.en,{"sd_title": "SD card", "sd_card": "Card", "sd_state": "Status", "sd_found": "Found", "sd_none": "Not found", "sd_type": "Type", "sd_size": "Size", "sd_used": "Used", "sd_pins": "Pins", "sd_check": "Check the card again", "sd_space": "Measure free space", "sd_scan": "Detect the wiring order", "sd_scanH": "The device will try every possible wire order of pins 38 to 41 until it finds the card (up to a minute). Use this only when the card is inserted and the normal check did not find it. Continue?", "sd_scanning": "Trying", "sd_scanOk": "Card found, the wiring order was saved", "sd_scanNo": "No card found with any order. Make sure the card is inserted and formatted FAT32", "sd_noH": "Insert the card (FAT32) and tap Check the card again", "sd_files": "Files", "sd_open": "Open the file manager", "sd_up": "Up one folder", "sd_drop": "Drop files here or tap to choose", "sd_mkdir": "New folder", "sd_folderName": "Folder name (English letters and digits)", "sd_empty": "This folder is empty", "sd_sysLock": "The system folder is protected: you can open it and download from it, but not upload, change or delete anything in it. Backups are deleted from the Backups section.", "sd_dl": "Download", "sd_del": "Delete", "sd_delQ": "Delete this?", "sd_uploaded": "uploaded", "sd_bk": "Backups", "sd_bkH": "A backup keeps: light and room names, brightness, switch pairing and calibration, schedules, scenes, statistics, learned habits and the energy settings. It does not keep accounts, PINs or Wi-Fi passwords, because anybody who pulls the card out could read them.", "sd_bkNow": "Back up now", "sd_bkAuto": "Automatic backup", "sd_off": "Off", "sd_daily": "Daily", "sd_weekly": "Weekly", "sd_bkLast": "Last backup", "sd_bkEmpty": "No backups yet", "sd_restore": "Restore", "sd_restoreQ": "This puts back the settings of this backup and restarts the device. Accounts and Wi-Fi are not changed. Continue?", "sd_restoring": "Restoring and restarting...", "sd_bkDone": "Backup done", "sd_noDate": "No date", "sd_eSys": "The system folder is protected", "sd_eNo": "No card", "sd_eExists": "That name is taken", "sd_eName": "Name or path not accepted (English letters, digits and - _ . only)", "sd_eIo": "The operation failed, check the card", "sd_eBad": "The backup file is not valid", "mq_title": "Text on the screen", "mq_h": "Type a text that scrolls on the small OLED screen. Arabic and English both work.", "mq_ph": "Type the text", "mq_speed": "Speed", "mq_slow": "Slow", "mq_med": "Normal", "mq_fast": "Fast", "mq_rep": "Repeat", "mq_send": "Show", "mq_stop": "Stop", "mq_sent": "Sent to the screen", "mq_stopped": "Stopped", "mq_long": "The text is too long, shorten it", "mq_noOled": "The screen was not found", "mq_fit": "Fits the screen, shown still", "mq_scroll": "Will scroll across the screen", "gp_sdOn": "Working", "gp_sdOff": "Not working"});
+Object.assign(L.ar,{"j_who": "مين عم يستخدم التطبيق؟", "j_family": "شخص من العائلة", "j_admin": "مشرف", "j_name": "اسمك", "j_pw": "كلمة سر المشرف", "j_go": "دخول", "j_nameReq": "اكتب اسمك", "j_banned": "انحظرت من استخدام التطبيق", "j_full": "عدد الأجهزة وصل للحد الأقصى", "ac_r0": "مشرف", "ac_r2": "عائلة", "ac_mine": "أنا", "ac_guest": "ضيف", "ac_noPerm": "ما عندك صلاحية", "me_rename": "تغيير الاسم", "me_forget": "نسيان هالجهاز", "me_toAdmin": "دخول كمشرف", "pw_title": "كلمة سر المشرف", "pw_old": "الكلمة الحالية", "pw_new": "الكلمة الجديدة (4 أحرف على الأقل)", "pw_bad": "كلمة السر لازم تكون من 4 لـ 32 حرف", "us_title": "المستخدمون", "us_hint": "كل جهاز بيدخل بيظهر هون. الحظر بيمنع الجهاز والاسم من الدخول.", "us_empty": "ما حدا سجّل دخول لسا", "us_ban": "حظر", "us_unban": "فك الحظر", "us_del": "حذف", "us_banned": "محظور", "us_you": "أنت", "us_confirmBan": "تحظر هالمستخدم؟", "us_noBanAdmin": "ما بتقدر تحظر مشرف", "net_esp": "شبكة الجهاز (ESP)", "net_online": "أونلاين", "net_local": "محلي (بدون إنترنت)", "sc_until": "إطفاء تلقائي", "sc_none": "بدون", "sc_at": "يطفي الساعة", "sc_untilH": "اللد بيشتغل بوقت البداية وبيطفي بهالوقت. إذا الإطفاء قبل البداية بيطفي بتاني يوم.", "sc_for": "اللد", "sc_bylight": "حسب اللد", "ic_pick": "اختر أيقونة", "ic_auto": "تلقائي", "tx_for": "مدة العرض", "tx_until": "لحد ما أوقفه", "tx_min": "دقيقة", "tx_sched": "نصوص مجدولة", "tx_jobs": "النصوص المجدولة", "tx_new": "نص جديد", "tx_edit": "تعديل النص", "tx_text": "النص", "tx_once": "مرة وحدة", "tx_repeat": "بتكرر", "tx_date": "التاريخ", "tx_time": "الوقت", "tx_dur": "مدة العرض (دقيقة)", "tx_play": "شغّل هلق", "tx_empty": "ما في نصوص مجدولة. اضغط + لإضافة نص.", "tx_nofs": "ذاكرة الجهاز مو جاهزة", "tx_full": "وصلت للحد الأقصى من النصوص", "tx_past": "اختار وقت بالمستقبل", "tx_needText": "اكتب النص أول", "vac_plan": "خطط لسفرة", "vac_from": "من", "vac_to": "إلى", "vac_planBtn": "جدولة السفر", "vac_planned": "السفر مجدول", "vac_starts": "بيبدأ", "vac_ends": "بينتهي", "vac_cancel": "إلغاء الجدولة", "vac_range": "تاريخ النهاية لازم يكون بعد البداية وبالمستقبل", "vac_adminOnly": "وضع السفر بيشغّلو المشرف بس", "vac_or": "أو ابدأ هلق لمدة محددة", "wPin": "كلمة سر المشرف", "wPinH": "اختار كلمة سر (4 أحرف أو أكتر). بتدخلها مرة وحدة على جهاز المشرف.", "pin2": "أعد كتابة كلمة السر", "pinBad": "كلمة السر لازم تكون 4 أحرف على الأقل", "pinMis": "الكلمتين مو متطابقتين", "logT": "السجل (للمشرف)"});
+Object.assign(L.en,{"j_who": "Who is using the app?", "j_family": "Family member", "j_admin": "Admin", "j_name": "Your name", "j_pw": "Admin password", "j_go": "Continue", "j_nameReq": "Enter your name", "j_banned": "You have been blocked from using this app", "j_full": "Too many devices have joined", "ac_r0": "Admin", "ac_r2": "Family", "ac_mine": "Me", "ac_guest": "Guest", "ac_noPerm": "You do not have permission", "me_rename": "Change name", "me_forget": "Forget this device", "me_toAdmin": "Sign in as admin", "pw_title": "Admin password", "pw_old": "Current password", "pw_new": "New password (at least 4 characters)", "pw_bad": "The password must be 4 to 32 characters", "us_title": "Users", "us_hint": "Every device that joined is listed here. Blocking stops that device and that name from coming back.", "us_empty": "Nobody has joined yet", "us_ban": "Block", "us_unban": "Unblock", "us_del": "Delete", "us_banned": "Blocked", "us_you": "You", "us_confirmBan": "Block this user?", "us_noBanAdmin": "An admin cannot be blocked", "net_esp": "Device network (ESP)", "net_online": "Online", "net_local": "Local (no internet)", "sc_until": "Turn off automatically", "sc_none": "Never", "sc_at": "Turn off at", "sc_untilH": "The light turns on at the start time and off at this time. If the off time is before the start it turns off the next day.", "sc_for": "Light", "sc_bylight": "By light", "ic_pick": "Pick an icon", "ic_auto": "Auto", "tx_for": "Show for", "tx_until": "Until I stop it", "tx_min": "min", "tx_sched": "Scheduled texts", "tx_jobs": "Scheduled texts", "tx_new": "New text", "tx_edit": "Edit text", "tx_text": "Text", "tx_once": "Once", "tx_repeat": "Repeat", "tx_date": "Date", "tx_time": "Time", "tx_dur": "Show for (minutes)", "tx_play": "Play now", "tx_empty": "No scheduled texts. Tap + to add one.", "tx_nofs": "Device storage is not ready", "tx_full": "Maximum number of texts reached", "tx_past": "Pick a time in the future", "tx_needText": "Type the text first", "vac_plan": "Plan a trip", "vac_from": "From", "vac_to": "To", "vac_planBtn": "Schedule the trip", "vac_planned": "Trip scheduled", "vac_starts": "Starts", "vac_ends": "Ends", "vac_cancel": "Cancel the plan", "vac_range": "The end must be after the start and in the future", "vac_adminOnly": "Only the admin can start vacation mode", "vac_or": "Or start now for a fixed time", "wPin": "Admin password", "wPinH": "Choose a password (4 characters or more). You type it once on the admin phone.", "pin2": "Repeat the password", "pinBad": "The password needs at least 4 characters", "pinMis": "The two passwords do not match", "logT": "Log (admin only)"});
+Object.assign(L.ar,{"fb_title": "الرابط الخفي للتطبيق (Firebase)", "fb_h": "بيخلي تطبيق My House يشتغل برا البيت بنفس الشكل بالضبط. الرسائل مشفّرة، وFirebase ما بتقدر تقراها. لازم تعمل مشروع Firebase مجاني (الخطوات بملف README).", "fb_on": "متصل", "fb_connecting": "عم يتصل...", "fb_key": "مفتاح الواجهة (Web API Key)", "fb_enable": "تشغيل", "fb_disable": "إيقاف", "fb_reset": "تغيير مفتاح التشفير", "fb_resetH": "كل التليفونات لازم تتصل مرة بشبكة البيت لتاخد المفتاح الجديد. متأكد؟"});
+Object.assign(L.en,{"fb_title": "Hidden link for the app (Firebase)", "fb_h": "Makes the My House app work away from home exactly the same. Messages are encrypted and Firebase cannot read them. You need a free Firebase project (steps are in the README).", "fb_on": "Connected", "fb_connecting": "Connecting...", "fb_key": "Web API key", "fb_enable": "Turn on", "fb_disable": "Turn off", "fb_reset": "Change the encryption key", "fb_resetH": "Every phone must connect once to the home network to get the new key. Continue?"});
+Object.assign(L.ar,{"rm_title": "الوصول عن بُعد وGoogle Home", "rm_h": "الجهاز بيظهر بسحابة ESP RainMaker. منها بتتحكم بالأضوية من برا البيت وبالصوت من Google Home. بتظهر الأضواء الـ8، وزر \"كل الأضوية\"، وزر لكل مشهد.", "rm_off": "مطفي", "rm_notpaired": "شغّال، لسا ما انربط", "rm_paired": "مربوط بحسابك", "rm_nobuild": "هالنسخة من الفرميوير انبنت بدون الوصول عن بُعد", "rm_enable": "تشغيل الوصول عن بُعد", "rm_disable": "إيقاف (بيعيد تشغيل الجهاز)", "rm_pair": "بدء الربط", "rm_repair": "ربط من جديد", "rm_needwifi": "وصّل الجهاز بواي فاي البيت (مو شبكة ESP) وجرّب كمان مرة", "rm_pairing": "نافذة الربط مفتوحة. الواي فاي ممكن ينقطع ثواني.", "rm_btname": "اسم البلوتوث", "rm_pin": "الرمز (PIN)", "rm_steps": "1) نزّل تطبيق ESP RainMaker وسجّل حساب. 2) شغّل البلوتوث والموقع بالموبايل. 3) بالتطبيق: Add device، بعدين I don't have a QR code، اختار الاسم اللي فوق واكتب الرمز. 4) اختار واي فاي البيت. 5) بعد ما يخلص افتح Google Home، اضغط +، Set up device، Works with Google، دوّر على ESP RainMaker وسجّل بنفس الحساب.", "rm_cancel": "إلغاء الربط (بيعيد تشغيل الجهاز)", "rm_unpair": "إلغاء الربط (بيعيد تشغيل الجهاز)", "rm_unpairH": "بعد الإلغاء احذف الجهاز من تطبيق RainMaker كمان. متأكد؟", "rm_googleH": "لإضافته لـ Google Home: افتح Google Home، +، Set up device، Works with Google، ESP RainMaker. أسماء الأضوية والمشاهد بتنقرا من الجهاز؛ المشهد الجديد بيظهر بعد إعادة التشغيل.", "srcRemote": "عن بُعد"});
+Object.assign(L.en,{"rm_title": "Remote access and Google Home", "rm_h": "The device shows up in the ESP RainMaker cloud. From there you control the lights from outside the house and by voice from Google Home. You get the 8 lights, an \"All lights\" switch and one switch per scene.", "rm_off": "Off", "rm_notpaired": "On, not paired yet", "rm_paired": "Paired with your account", "rm_nobuild": "This firmware was built without remote access", "rm_enable": "Turn on remote access", "rm_disable": "Turn off (restarts the device)", "rm_pair": "Start pairing", "rm_repair": "Pair again", "rm_needwifi": "Connect the device to the home Wi-Fi (not the ESP network) and try again", "rm_pairing": "The pairing window is open. Wi-Fi may drop for a few seconds.", "rm_btname": "Bluetooth name", "rm_pin": "PIN", "rm_steps": "1) Install the ESP RainMaker app and create an account. 2) Turn on Bluetooth and location on the phone. 3) In the app: Add device, then I don't have a QR code, pick the name above and type the PIN. 4) Choose the home Wi-Fi. 5) When it finishes open Google Home, tap +, Set up device, Works with Google, search ESP RainMaker and sign in with the same account.", "rm_cancel": "Cancel pairing (restarts the device)", "rm_unpair": "Unpair (restarts the device)", "rm_unpairH": "After unpairing also delete the device in the RainMaker app. Continue?", "rm_googleH": "To add it to Google Home: open Google Home, +, Set up device, Works with Google, ESP RainMaker. Light and scene names are read from the device; a new scene appears after a restart.", "srcRemote": "Remote"});
+Object.assign(L.ar,{"ota_cur": "النسخة الحالية", "ota_last": "آخر تحديث", "ota_prev": "النسخة السابقة المحفوظة بالجهاز", "ota_h": "اختار ملف firmware.bin (مش firmware-factory.bin). الجهاز بيفحص الملف قبل ما يركّبه، وإذا فشل التحديث بيضل شغال على النسخة الحالية.", "ota_pick": "اختار ملف التحديث أول", "ota_q": "تركيب التحديث؟ الجهاز رح يعيد التشغيل وبتضل الأضوية على حالتها.", "ota_up": "عم يترفع الملف... لا تسكّر التطبيق", "ota_restart": "تم التركيب. الجهاز عم يعيد التشغيل...", "ota_noback": "الجهاز ما رجع بعد دقيقة ونص. تأكد من الكهربا والواي فاي وافتح التطبيق من جديد", "ota_rb": "الرجوع للنسخة السابقة", "ota_rbq": "الرجوع للنسخة السابقة؟ الجهاز رح يعيد التشغيل.", "ota_e_notapp": "هاد الملف مش ملف تحديث لهالجهاز. استخدم firmware.bin", "ota_e_factory": "هاد الملف الكامل (factory) وبينحط بس عن طريق الكمبيوتر. للتحديث من التطبيق استخدم firmware.bin", "ota_e_begin": "الجهاز ما قدر يجهّز مكان التحديث", "ota_e_write": "صار خطأ أثناء الكتابة. النسخة الحالية ما تأثرت، جرّب مرة تانية", "ota_e_verify": "الملف ناقص أو تالف. النسخة الحالية ما تأثرت", "ota_e_abort": "انقطع الرفع. النسخة الحالية ما تأثرت", "ota_e_nofile": "ما وصل أي ملف للجهاز", "ota_e_net": "انقطع الاتصال أثناء الرفع. النسخة الحالية ما تأثرت، جرّب مرة تانية", "ota_e_noprev": "ما في نسخة سابقة صالحة للرجوع إلها"});
+Object.assign(L.en,{"ota_cur": "Current version", "ota_last": "Last update", "ota_prev": "Previous firmware kept on the device", "ota_h": "Choose firmware.bin (not firmware-factory.bin). The device checks the file before installing it, and if the update fails it keeps running the current version.", "ota_pick": "Choose the update file first", "ota_q": "Install the update? The device will restart and the lights keep their state.", "ota_up": "Uploading... do not close the app", "ota_restart": "Installed. The device is restarting...", "ota_noback": "The device did not come back after 90 seconds. Check the power and Wi-Fi and open the app again", "ota_rb": "Go back to the previous firmware", "ota_rbq": "Go back to the previous firmware? The device will restart.", "ota_e_notapp": "This is not an update file for this device. Use firmware.bin", "ota_e_factory": "This is the full (factory) file, only for flashing from a computer. For updates from the app use firmware.bin", "ota_e_begin": "The device could not prepare space for the update", "ota_e_write": "A write error happened. The current version is untouched, try again", "ota_e_verify": "The file is incomplete or damaged. The current version is untouched", "ota_e_abort": "The upload was interrupted. The current version is untouched", "ota_e_nofile": "No file reached the device", "ota_e_net": "The connection dropped during the upload. The current version is untouched, try again", "ota_e_noprev": "There is no valid previous firmware to go back to"});
+const IC={
+bulb:'<path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.5 1 2.5h6c0-1 .3-1.8 1-2.5A6 6 0 0 0 12 3z"/>',
+bed:'<path d="M3 19V6M3 15h18v4M21 15v-3a3 3 0 0 0-3-3h-7v6"/><circle cx="7" cy="11" r="1.7"/>',
+sofa:'<path d="M5 11V8a3 3 0 0 1 3-3h8a3 3 0 0 1 3 3v3M3 14a2 2 0 0 1 4 0v1h10v-1a2 2 0 0 1 4 0v5H3v-5zM6 19v2M18 19v2"/>',
+kitchen:'<path d="M7 3v7M5 3v4a2 2 0 0 0 4 0V3M7 10v11M17 3c-2 2-3 5-3 8h3v10"/>',
+bath:'<path d="M4 12h16v2a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5v-2zM6 12V6a2 2 0 0 1 4 0M7 19l-1 2M17 19l1 2"/>',
+door:'<path d="M6 21V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v17M4 21h16M14 12v.01"/>',
+tv:'<rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4"/>',
+power:'<path d="M12 3v9M6.4 6.4a8 8 0 1 0 11.2 0"/>',
+gear:'<circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M4.5 4.5l2.1 2.1M17.4 17.4l2.1 2.1M2.5 12h3M18.5 12h3M4.5 19.5l2.1-2.1M17.4 6.6l2.1-2.1"/>',
+palette:'<path d="M12 3a9 9 0 1 0 0 18c1.4 0 2-1 2-2s-.6-1.6-.6-2.4c0-1 .8-1.6 1.8-1.6H17a4 4 0 0 0 4-4c0-4.4-4-8-9-8z"/><circle cx="8" cy="11" r="1"/><circle cx="12" cy="7.5" r="1"/><circle cx="16" cy="11" r="1"/>',
+home:'<path d="M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10"/>',
+wifi:'<path d="M2 9a15 15 0 0 1 20 0M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0M12 19.5v.01"/>',
+pin:'<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>',
+chip:'<rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/>',
+room:'<path d="M4 20V8l8-5 8 5v12M9 20v-6h6v6"/>',
+trash:'<path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/>',
+chev:'<path d="M9 6l6 6-6 6"/>',
+clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+timer:'<circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2M9 2h6"/>',
+plus:'<path d="M12 5v14M5 12h14"/>',
+sunrise:'<path d="M3 18h18M7 18a5 5 0 0 1 10 0M12 10V4M9.5 6.5L12 4l2.5 2.5M4.2 12.2l1.4 1.4M19.8 12.2l-1.4 1.4"/>',
+sunset:'<path d="M3 18h18M7 18a5 5 0 0 1 10 0M12 4v6M9.5 7.5L12 10l2.5-2.5M4.2 12.2l1.4 1.4M19.8 12.2l-1.4 1.4"/>',
+chart:'<path d="M5 20V12M12 20V5M19 20v-9"/>',
+bolt:'<path d="M13 2L4 14h7l-1 8 9-12h-7z"/>',
+sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
+moon:'<path d="M20 14.5A8.5 8.5 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5z"/>',
+star:'<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>',
+book:'<path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2V5zM4 19a2 2 0 0 1 2-2h13"/>',
+scene:'<path d="M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8zM18 15l.8 2.2L21 18l-2.2.8L18 21l-.8-2.2L15 18l2.2-.8z"/>',
+log:'<path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"/>',
+plane:'<path d="M10.5 13.5L3 11l1.5-1.5 8-.5L17 4.5a1.7 1.7 0 0 1 2.5 2.5L15 11.5l-.5 8L13 21l-2.5-7.5z"/>',
+coin:'<circle cx="12" cy="12" r="9"/><path d="M12 7v10M9.5 9.5c0-1 1-1.7 2.5-1.7s2.5.7 2.5 1.7-1 1.5-2.5 2-2.5 1-2.5 2 1 1.7 2.5 1.7 2.5-.7 2.5-1.7"/>'
+};
+Object.assign(IC,{
+user:'<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',
+shield:'<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/>',
+kid:'<circle cx="12" cy="12" r="9"/><path d="M8 14a5 5 0 0 0 8 0M9 9.5v.01M15 9.5v.01"/>',
+users:'<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7M18 14a6.5 6.5 0 0 1 3.5 6"/>',
+logout:'<path d="M9 4H5a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h4M16 8l4 4-4 4M20 12H9"/>'
+});
+Object.assign(IC,{
+sd:'<path d="M7 3h8l3 3v15H7zM10 7v3M13 7v3M16 7v3"/>',
+folder:'<path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',
+file:'<path d="M6 3h8l4 4v14H6zM14 3v4h4"/>',
+down:'<path d="M12 4v10M8 10l4 4 4-4M5 20h14"/>',
+msg:'<rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 12h6M16 12h1"/>'
+});
+Object.assign(IC,{
+lamp:'<path d="M8 3h8l3 9H5zM12 12v7M8 21h8"/>',
+desk:'<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/>',
+garden:'<path d="M12 21v-6M12 3c-4 0-6 3-6 6 0 2.5 2 4.5 4 5h4c2-.5 4-2.5 4-5 0-3-2-6-6-6z"/>',
+garage:'<path d="M3 20V9l9-5 9 5v11M7 20v-6h10v6M7 17h10"/>',
+stairs:'<path d="M4 20h4v-4h4v-4h4V8h4"/>',
+ban:'<circle cx="12" cy="12" r="9"/><path d="M5.6 5.6l12.8 12.8"/>',
+globe:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/>',
+play:'<path d="M8 5l11 7-11 7z"/>'
+});
+function icon(n){return '<svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+(IC[n]||IC.bulb)+'</svg>'}
+function roomIcon(s){
+  s=(s||'').toLowerCase();
+  if(/نوم|bed|sleep/.test(s))return 'bed';
+  if(/صالون|جلوس|ضيوف|living|sofa|lounge/.test(s))return 'sofa';
+  if(/مطبخ|kitchen/.test(s))return 'kitchen';
+  if(/حمام|حمّام|toilet|bath|wc/.test(s))return 'bath';
+  if(/مدخل|ممر|باب|درج|entry|hall|door|stair/.test(s))return 'door';
+  if(/تلفزيون|tv|media|سينما/.test(s))return 'tv';
+  return 'bulb';
+}
+const THEMES=['dark','light','amoled','color'];
+let S=null,view='',hold=0;
+let token=localStorage.getItem('tok')||'';
+let lang=localStorage.getItem('lang')||'ar';
+let theme=localStorage.getItem('theme')||'dark';
+const $=id=>document.getElementById(id);
+const t=k=>(L[lang][k]||k);
+function el(tag,cls,txt){const e=document.createElement(tag);if(cls)e.className=cls;if(txt!==undefined)e.textContent=txt;return e}
+function ic(n,cls){const s=el('span',cls||'');s.innerHTML=icon(n);return s}
+function look(){
+  document.documentElement.dir=lang==='ar'?'rtl':'ltr';
+  document.documentElement.lang=lang;
+  document.documentElement.setAttribute('data-theme',theme);
+  const c=getComputedStyle(document.documentElement).getPropertyValue('--bg').trim();
+  document.querySelector('meta[name=theme-color]').setAttribute('content',c||'#0b0d12');
+}
+function toast(m){const e=$('toast');e.textContent=m;e.classList.add('show');setTimeout(()=>e.classList.remove('show'),2200)}
+async function api(p,m,b){
+  const o={method:m||'GET',headers:{}};
+  if(token)o.headers['X-Token']=token;
+  if(b!==undefined){o.headers['Content-Type']='application/json';o.body=JSON.stringify(b)}
+  const r=await fetch(p,o);
+  const j=await r.json().catch(()=>({}));
+  j._s=r.status;
+  if(r.status===401){token='';localStorage.removeItem('tok')}
+  if(r.status===403&&j.err==='banned'&&p!=='/api/state')setTimeout(poll,0);
+  return j;
+}
+async function poll(){
+  if(Date.now()<hold)return;
+  try{S=await api('/api/state');if(!S.rooms)S.rooms=(S.ch||[]).map(c=>({id:c.i,n:c.n,ch:[c.i]}));render();
+    if(!S.tv){api('/api/time','POST',{epoch:Math.floor(Date.now()/1000),tz:-new Date().getTimezoneOffset()})}
+  }catch(e){const c=$('pill');if(c){c.className='pill';c.lastChild.textContent=t('offl')}}
+}
+const P_ALL=1,P_OWN=2,P_VIEW=4,P_EDIT=8,P_OWNER=16,P_SCHED=32,P_LOG=64;
+const ROLEIC=['shield','shield','users','kid'];
+const ICL=['bulb','bed','sofa','kitchen','bath','door','tv','lamp','desk','garden','garage','stairs','kid','book','sun','moon','star','home','bolt','plane'];
+function roomIc(r){return (r&&r.ic!==undefined&&r.ic<ICL.length)?ICL[r.ic]:roomIcon(r?r.n:'')}
+function lightIc(c){return (c&&c.ic!==undefined&&c.ic<ICL.length)?ICL[c.ic]:'bulb'}
+function can(p){return !!S&&((S.p||0)&p)===p}
+function roleTxt(r){return t('ac_r'+r)}
+function accName(a){return (S&&S.me&&S.me.a===a&&S.me.n)||('#'+(a+1))}
+async function refreshState(){
+  S=await api('/api/state');
+  if(!S.rooms)S.rooms=(S.ch||[]).map(c=>({id:c.i,n:c.n,ch:[c.i]}));
+}
+async function logout(){
+  try{await api('/api/logout','POST',{})}catch(e){}
+  token='';localStorage.removeItem('tok');
+  $('modal').classList.add('hide');
+  await refreshState();view='';render();
+}
+let JR='family',JN=localStorage.getItem('nm')||'';
+function loginBox(host,done,cancel){
+  host.innerHTML='';
+  if(S&&S.ban){host.append(el('h2','',t('j_banned')));return}
+  host.append(el('h2','',t('j_who')));
+  host.append(seg([['family',t('j_family')],['admin',t('j_admin')]],JR,v=>{JR=v;loginBox(host,done,cancel)}));
+  const out=el('div','msg');
+  let pw=null;
+  if(JR==='admin'){pw=el('input','fld');pw.type='password';pw.placeholder=t('j_pw');pw.autocomplete='off';host.append(pw)}
+  const ni=el('input','fld');ni.maxLength=14;ni.placeholder=t('j_name');ni.value=JN;ni.oninput=()=>{JN=ni.value};
+  host.append(ni,out);
+  const go=el('button','btn',t('j_go'));go.style.width='100%';
+  go.onclick=async()=>{
+    const n=ni.value.trim();
+    if(!n){out.textContent=t('j_nameReq');out.className='msg err';return}
+    const b={role:JR,name:n};if(JR==='admin')b.pw=pw.value;
+    go.disabled=true;
+    const r=await api('/api/join','POST',b);
+    go.disabled=false;
+    if(r.ok){token=r.token;localStorage.setItem('tok',token);localStorage.setItem('nm',n);await refreshState();done()}
+    else{
+      out.className='msg err';
+      out.textContent=r.err==='banned'?t('j_banned'):r._s===429?t('locked'):r.err==='full'?t('j_full'):r.err==='bad'?t('wrong'):t('err');
+      if(pw)pw.value='';
+    }
+  };
+  ni.onkeydown=e=>{if(e.key==='Enter')go.click()};
+  host.append(go);
+  if(cancel){const cb=el('button','btn sec2',t('close'));cb.style.cssText='width:100%;margin-top:10px';cb.onclick=cancel;host.append(cb)}
+}
+function loginPage(){
+  look();openR=null;
+  $('modal').classList.add('hide');
+  const a=$('app');a.innerHTML='';
+  const box=el('div','wiz');a.append(box);
+  const lg=el('div','logo');lg.innerHTML=icon('bulb');box.append(lg);
+  box.append(el('h1','',t('title')));
+  const host=el('div');box.append(host);
+  loginBox(host,()=>{view='';render()},null);
+  const r=el('div','row');r.style.marginTop='18px';
+  const b1=el('button','btn sec2 sm',t('lang'));b1.onclick=()=>{lang=lang==='ar'?'en':'ar';localStorage.setItem('lang',lang);loginPage()};
+  const b2=el('button','btn sec2 sm',t('theme'));b2.onclick=()=>{theme=THEMES[(THEMES.indexOf(theme)+1)%THEMES.length];localStorage.setItem('theme',theme);look()};
+  r.append(b1,b2);box.append(r);
+}
+function render(){
+  if(!S)return;
+  if(S.login){if(view!=='login'){view='login';loginPage()}return}
+  if(!S.cfg){if(view!=='wiz'){view='wiz';wizShow()}return}
+  if(view!=='dash'){view='dash';dashBuild()}
+  dashUpdate();
+}
+/* ---------- dashboard ---------- */
+let sig='',openR=null;
+function layoutSig(){return S.rooms.map(r=>r.id+':'+r.ch.join(',')).join('|')}
+function roomOn(r){return r.ch.some(i=>S.ch[i].on)}
+function dashBuild(){
+  look();sig='';
+  const a=$('app');a.innerHTML='';
+  const top=el('div','top');
+  const l=el('div');
+  const h=new Date().getHours();
+  l.append(el('div','hello',(h<12?t('gm'):t('ge'))+(S.me&&S.me.a>=0?'، '+accName(S.me.a):'')),el('h1','',t('title')));
+  const tools=el('div','tools');
+  const bt=el('button','ic');bt.innerHTML=icon('palette');
+  bt.onclick=()=>{theme=THEMES[(THEMES.indexOf(theme)+1)%THEMES.length];localStorage.setItem('theme',theme);look()};
+  const bl=el('button','ic txt',t('lang'));
+  bl.onclick=()=>{lang=lang==='ar'?'en':'ar';localStorage.setItem('lang',lang);dashBuild();dashUpdate()};
+  const bu=el('button','ic');bu.innerHTML=icon('user');bu.onclick=meUI;
+  tools.append(bu,bt,bl);
+  if(can(P_ALL)){const bo=el('button','ic');bo.innerHTML=icon('msg');bo.onclick=openMq;tools.prepend(bo)}
+  top.append(l,tools);
+  const hero=el('div','hero');
+  const hl=el('div');
+  const big=el('div','big');big.id='cnt';
+  const lbl=el('div','lbl',t('litN'));
+  const pill=el('span','pill');pill.id='pill';pill.append(el('i'),document.createTextNode(''));
+  hl.append(big,lbl,pill);
+  const ao=el('button','alloff');
+  ao.append(ic('power','ico'),el('span','',t('alloff')));
+  ao.onclick=async()=>{const r=await api('/api/all','POST',{on:false});if(r.ch){S=r;dashUpdate()}};
+  hero.append(hl,ao);
+  const g=el('div','grid');g.id='grid';
+  const vb=el('button','vbar hide');vb.id='vbar';
+  const vbt=el('span');vbt.id='vbt';const vbl=el('b');vbl.id='vbl';
+  vb.append(ic('plane'),vbt,vbl);vb.onclick=openScenes;
+  const scT=el('div','sect hide',t('scenes'));scT.id='scsec';
+  const scR=el('div','scs hide');scR.id='scs';
+  scSig='';
+  a.append(top,hero,vb,scT,scR,el('div','sect',t('rooms')),g);
+  const dock=el('div','dock');
+  const b1=el('button','act');b1.append(ic('home'),el('span','',t('home')));
+  const b2=el('button','');b2.append(ic('gear'),el('span','',t('settings')));
+  b2.onclick=openSettings;
+  const b3=el('button','');b3.append(ic('clock'),el('span','',t('sched')));b3.onclick=openSched;
+  const b4=el('button','');b4.append(ic('chart'),el('span','',t('stats')));b4.onclick=openStats;
+  const b5=el('button','');b5.append(ic('scene'),el('span','',t('scenes')));b5.onclick=openScenes;
+  const its=[b1];
+  if(can(P_ALL))its.push(b5);
+  if(can(P_VIEW))its.push(b4,b3);
+  its.push(b2);
+  dock.append(...its);
+  a.append(dock);
+}
+function mkSlider(i,stId){
+  const sl=document.createElement('input');sl.type='range';sl.min=1;sl.max=100;sl.value=100;
+  let last=0;
+  sl.oninput=()=>{
+    hold=Date.now()+1500;sl.style.setProperty('--v',sl.value+'%');
+    const s=$(stId);if(s)s.textContent=t('on')+' '+sl.value+'%';
+    const n=Date.now();if(n-last>150){last=n;cmd({i:i,b:+sl.value})}
+  };
+  sl.onchange=()=>{cmd({i:i,b:+sl.value});hold=Date.now()+700};
+  return sl;
+}
+function mkLight(i,pf){
+  const d=el('div','lt');d.id=pf+i;
+  const h=el('div','lh');
+  const nm=el('span','ln');nm.id=pf+'n'+i;
+  const mp=el('button','mp');mp.innerHTML=icon('power');
+  mp.onclick=e=>{e.stopPropagation();cmd({i:i,on:!S.ch[i].on})};
+  h.append(nm,mp);
+  const st=el('div','ls');st.id=pf+'s'+i;
+  d.append(h,st,mkSlider(i,pf+'s'+i));
+  return d;
+}
+function mkRoom(r){
+  const n=r.ch.length;
+  const d=el('div','tile'+(n>1?' span2':''));d.id='r'+r.id;
+  const ti=el('div','ti');
+  const ico=el('div','ico');ico.id='ri'+r.id;
+  const acts=el('div','acts');
+  if(n>1){
+    const mp=el('button','mp');mp.innerHTML=icon('power');
+    mp.onclick=e=>{e.stopPropagation();rcmd({r:r.id,on:!roomOn(r)})};
+    acts.append(mp);
+  }
+  const ob=el('button','mp rchev');ob.innerHTML=icon('chev');
+  ob.onclick=e=>{e.stopPropagation();openRoom(r.id)};
+  acts.append(ob);
+  ti.append(ico,acts);
+  const nm=el('div','nm');nm.id='rn'+r.id;
+  const st=el('div','st');st.id='rs'+r.id;
+  d.append(ti,nm,st);
+  if(n===1){
+    const i=r.ch[0];
+    d.append(mkSlider(i,'rs'+r.id));
+    d.onclick=e=>{if(e.target.tagName==='INPUT'||e.target.closest('.acts'))return;cmd({i:i,on:!S.ch[i].on})};
+  }else{
+    const ls=el('div','lights');
+    r.ch.forEach(i=>ls.append(mkLight(i,'l')));
+    d.append(ls);
+  }
+  return d;
+}
+async function cmd(b){
+  const r=await api('/api/set','POST',b);
+  if(r.ch){S=r;dashUpdate()}
+}
+async function rcmd(b){
+  const r=await api('/api/room','POST',b);
+  if(r.ch){S=r;dashUpdate()}
+}
+function updLight(pf,c){
+  const d=$(pf+c.i);if(!d)return;
+  d.classList.toggle('on',!!c.on);
+  const n=$(pf+'n'+c.i);
+  if(n){const k=c.n+'|'+lightIc(c);if(n.dataset.k!==k){n.dataset.k=k;n.textContent='';const lc=el('span','lic');lc.innerHTML=icon(lightIc(c));n.append(lc,document.createTextNode(c.n))}}
+  if(Date.now()>=hold){
+    const sl=d.querySelector('input');sl.value=c.b;sl.style.setProperty('--v',c.b+'%');
+    const s=$(pf+'s'+c.i);if(s)s.textContent=c.on?t('on')+' '+c.b+'%':t('off');
+  }
+}
+function updRoom(r){
+  const d=$('r'+r.id);if(!d)return;
+  const cs=r.ch.map(i=>S.ch[i]);
+  const onN=cs.filter(c=>c.on).length;
+  d.classList.toggle('on',onN>0);
+  $('rn'+r.id).textContent=r.n;
+  const ri=roomIc(r);const ie=$('ri'+r.id);
+  if(ie.dataset.k!==ri){ie.dataset.k=ri;ie.innerHTML=icon(ri)}
+  if(cs.length===1){
+    const c=cs[0];
+    if(Date.now()>=hold){
+      const sl=d.querySelector('input');sl.value=c.b;sl.style.setProperty('--v',c.b+'%');
+      $('rs'+r.id).textContent=c.on?t('on')+' '+c.b+'%':t('off');
+    }
+  }else{
+    $('rs'+r.id).textContent=onN+' / '+cs.length+' '+t('on');
+    cs.forEach(c=>updLight('l',c));
+  }
+}
+function dashUpdate(){
+  const p=$('pill');
+  if(p){
+    let c='pill ok',tx=S.via===2?t('net_esp'):(S.inet?t('net_online'):t('net_local'));
+    if(S.via===2)c='pill warn';
+    p.className=c;p.lastChild.textContent=tx;
+  }
+  if(layoutSig()!==sig){
+    const g=$('grid');if(g){g.innerHTML='';S.rooms.forEach(r=>g.append(mkRoom(r)));sig=layoutSig()}
+  }
+  const vis=new Set();S.rooms.forEach(r=>r.ch.forEach(i=>vis.add(i)));
+  const vcs=S.ch.filter(c=>vis.has(c.i));
+  const n=vcs.filter(c=>c.on).length;
+  const cn=$('cnt');
+  if(cn){cn.textContent=n;cn.append(el('small','','/ '+vcs.length))}
+  S.rooms.forEach(updRoom);
+  updScenes();
+  if(openR!==null)updSheet();
+}
+/* ---------- room page ---------- */
+function openRoom(id){
+  const r=S.rooms.find(x=>x.id===id);if(!r)return;
+  openR=id;
+  const m=$('modal');m.classList.remove('hide');m.innerHTML='';
+  m.onclick=e=>{if(e.target===m){m.classList.add('hide');openR=null}};
+  const sh=el('div','sheet');
+  const hd=el('div','rhead');
+  const ico=el('div','ico');ico.id='pi';ico.innerHTML=icon(roomIc(r));
+  const nm=el('h2','',r.n);nm.id='pnm';
+  const mp=el('button','mp big');mp.id='pmp';mp.innerHTML=icon('power');
+  mp.onclick=()=>{const rr=S.rooms.find(x=>x.id===openR);if(rr)rcmd({r:rr.id,on:!roomOn(rr)})};
+  hd.append(ico,nm,mp);
+  sh.append(hd);
+  if(r.ch.length>1){
+    const box=el('div','lt');box.id='pmaster';
+    const h=el('div','lh');h.append(el('span','ln',t('master')));
+    const st=el('div','ls');st.id='pmst';
+    const ms=document.createElement('input');ms.type='range';ms.min=1;ms.max=100;ms.value=100;ms.id='pms';
+    let last=0;
+    ms.oninput=()=>{hold=Date.now()+1500;ms.style.setProperty('--v',ms.value+'%');st.textContent=t('on')+' '+ms.value+'%';const n=Date.now();if(n-last>150){last=n;rcmd({r:id,b:+ms.value})}};
+    ms.onchange=()=>{rcmd({r:id,b:+ms.value});hold=Date.now()+700};
+    box.append(h,st,ms);sh.append(box);
+  }
+  r.ch.forEach(i=>sh.append(mkLight(i,'p')));
+  const ao=sec(t('autoOff'),'timer');
+  const vals=r.ch.map(i=>S.ch[i].ao);
+  const cur=vals.every(v=>v===vals[0])?vals[0]:-1;
+  const sel=el('select','fld');
+  const opts=[0,5,10,15,30,45,60,120,180,240,360,480,720];
+  if(cur>0&&!opts.includes(cur))opts.push(cur);
+  if(cur<0)opts.unshift(-1);
+  opts.forEach(v=>{const o=document.createElement('option');o.value=v;o.textContent=v<0?t('aoMixed'):v===0?t('aoNone'):(v>=60&&v%60===0?(v/60)+' h':v+' '+t('mn'));sel.append(o)});
+  sel.value=cur;sel.disabled=!S.adm;
+  sel.onchange=async()=>{
+    if(+sel.value<0)return;
+    const rr=await api('/api/autooff','POST',{r:id,min:+sel.value});
+    if(rr.ch){S=rr}else{toast(t('needPin'));sel.value=cur}
+  };
+  ao.append(sel);
+  if(!S.adm){const ub=el('button','btn sm sec2',t('unlock'));ub.onclick=()=>loginUI(()=>openRoom(id));ao.append(ub)}
+  const rem=el('div','msg');rem.id='aorem';ao.append(rem);
+  if(can(P_VIEW))sh.append(ao);
+  if(can(P_VIEW)){const us=sec(t('usageT'),'chart');us.id='rusage';sh.append(us);rufAt=0}
+  const cl=el('button','btn sec2',t('close'));cl.style.width='100%';cl.style.marginTop='10px';
+  cl.onclick=()=>{m.classList.add('hide');openR=null};
+  sh.append(cl);
+  m.append(sh);
+  updSheet();
+  if(can(P_VIEW))getStats(0).then(roomUsageFill);
+}
+function updSheet(){
+  const r=S.rooms.find(x=>x.id===openR);
+  if(!r){$('modal').classList.add('hide');openR=null;return}
+  $('pnm').textContent=r.n;
+  $('pi').innerHTML=icon(roomIc(r));
+  const cs=r.ch.map(i=>S.ch[i]);
+  const any=cs.some(c=>c.on);
+  const mb=$('pmp');if(mb)mb.style.background=any?'var(--acc)':'';
+  if(mb)mb.style.color=any?'var(--onacc)':'';
+  const box=$('pmaster');
+  if(box){
+    box.classList.toggle('on',any);
+    if(Date.now()>=hold){
+      const mx=Math.max.apply(null,cs.map(c=>c.b));
+      const ms=$('pms');ms.value=mx;ms.style.setProperty('--v',mx+'%');
+      $('pmst').textContent=any?t('on')+' '+mx+'%':t('off');
+    }
+  }
+  cs.forEach(c=>updLight('p',c));
+  if(can(P_VIEW))getStats(5000).then(()=>{if(stAt!==rufAt)roomUsageFill()});
+  const re=$('aorem');
+  if(re){const rs=cs.map(c=>c.aor).filter(x=>x>=0);re.textContent=rs.length?t('aoIn')+' '+Math.min.apply(null,rs)+' '+t('mn'):''}
+}
+/* ---------- statistics ---------- */
+let ST=null,stAt=0,stBusy=null,stView={k:'',i:-1,back:null},stTimer=null,rufAt=0;
+const SP={p:'7',m:'h'};
+function getStats(maxAge){
+  if(ST&&Date.now()-stAt<maxAge)return Promise.resolve(ST);
+  if(stBusy)return stBusy;
+  stBusy=api('/api/stats').then(r=>{stBusy=null;if(r.ok){ST=r;stAt=Date.now()}return ST}).catch(()=>{stBusy=null;return ST});
+  return stBusy;
+}
+function ltr(x){return '\u2066'+x+'\u2069'}
+function fmtDur(s){
+  const h=Math.floor(s/3600),mm=Math.floor((s%3600)/60);
+  if(h>=100)return h+' '+t('hr');
+  if(h>0)return h+' '+t('hr')+(mm?' '+mm+' '+t('mn'):'');
+  if(mm>0)return mm+' '+t('mn');
+  return s>0?'<1 '+t('mn'):'0';
+}
+function fmtE(mwh){
+  const wh=mwh/1000;
+  if(wh>=1000){const k=wh/1000;return ltr((k>=100?k.toFixed(0):k.toFixed(2))+' kWh')}
+  if(wh>=100)return ltr(wh.toFixed(0)+' Wh');
+  return ltr(wh.toFixed(wh>=10?1:2)+' Wh');
+}
+function fmtC(mwh){
+  const p=ST?ST.price:0;
+  if(!(p>0))return '—';
+  const c=mwh/1e6*p;
+  return ltr((c>=100?c.toFixed(0):c>=1?c.toFixed(2):c.toFixed(3))+(ST.cur?' '+ST.cur:''));
+}
+function fmtM(m,v){return m==='h'?fmtDur(v):m==='e'?fmtE(v):fmtC(v)}
+function mval(a,m){return m==='h'?a.sec:a.mwh}
+function agg(l,p){
+  if(p==='a')return {sec:l.ts,mwh:l.te,cnt:l.tc};
+  const n=p==='t'?1:p==='7'?7:30;
+  const a={sec:0,mwh:0,cnt:0};
+  for(let k=30-n;k<30;k++){a.sec+=l.ds[k];a.mwh+=l.de[k];a.cnt+=l.dc[k]}
+  return a;
+}
+function sumAgg(ls,p){return ls.reduce((a,l)=>{const x=agg(l,p);a.sec+=x.sec;a.mwh+=x.mwh;a.cnt+=x.cnt;return a},{sec:0,mwh:0,cnt:0})}
+function series(ls,m,n){
+  const out=[];
+  for(let k=30-n;k<30;k++){
+    let v=0;ls.forEach(l=>{v+=m==='h'?l.ds[k]:l.de[k]});
+    out.push({v:v,day:ST.day?ST.day-(29-k):0});
+  }
+  return out;
+}
+function dayLbl(day,n){
+  if(!day)return '';
+  if(n<=7)return DAYN[lang][(day+4)%7];
+  return String(new Date(day*86400000).getUTCDate());
+}
+function dateTxt(day){const d=new Date(day*86400000);return d.getUTCDate()+'/'+(d.getUTCMonth()+1)}
+function chartEl(sr,m){
+  const wrap=el('div','chart');
+  const mx=Math.max.apply(null,sr.map(x=>x.v).concat([1]));
+  sr.forEach((x,j)=>{
+    const c=el('div','cb');
+    const w=el('div','cw');
+    const bar=el('div','cbar'+(j===sr.length-1?' td':''));
+    bar.style.height=(x.v>0?Math.max(3,Math.round(x.v/mx*100)):0)+'%';
+    w.append(bar);
+    const show=sr.length<=7||(sr.length-1-j)%5===0;
+    c.append(w,el('div','cl',show?dayLbl(x.day,sr.length):''));
+    c.onclick=()=>toast((x.day?dateTxt(x.day)+':  ':'')+fmtM(m,x.v));
+    wrap.append(c);
+  });
+  return wrap;
+}
+function kpi(ico,val,lab){
+  const k=el('div','kpi');k.append(ic(ico),el('b','',val),el('span','',lab));return k;
+}
+function kpiRow(a){
+  const k=el('div','kpis');
+  k.append(kpi('clock',fmtDur(a.sec),t('hrs')),kpi('bolt',fmtE(a.mwh),t('energy')),kpi('coin',fmtC(a.mwh),t('cost')));
+  return k;
+}
+function lightLabel(i){
+  const r=S.rooms.find(x=>x.ch.includes(i));
+  if(!r)return S.ch[i].n;
+  return r.ch.length>1?r.n+' · '+S.ch[i].n:r.n;
+}
+function metricSeg(rerender){
+  return seg([['h',t('hrs')],['e',t('energy')],['c',t('cost')]],SP.m,v=>{SP.m=v;rerender()});
+}
+function stWarn(sh,ls){
+  const anyW=ls.some(l=>l.w>0);
+  if(!ST.tv)sh.append(el('div','warn2',t('noClock')));
+  if(!anyW){
+    const w=el('div','warn2',t('noWatts'));
+    const b=el('button','btn sm sec2',t('openSet'));b.style.marginTop='8px';b.onclick=openSettings;
+    w.append(el('div'),b);sh.append(w);
+  }else if(!(ST.price>0)){
+    const w=el('div','warn2',t('noPrice'));
+    const b=el('button','btn sm sec2',t('openSet'));b.style.marginTop='8px';b.onclick=openSettings;
+    w.append(el('div'),b);sh.append(w);
+  }
+}
+function stShell(key){
+  const m=$('modal');const old=m.firstChild;
+  const sc=(old&&old.dataset&&old.dataset.v===key)?old.scrollTop:0;
+  m.innerHTML='';
+  const sh=el('div','sheet');sh.dataset.v=key;
+  return {m:m,sh:sh,sc:sc};
+}
+function stDone(o){
+  const cl=el('button','btn sec2',t('close'));cl.style.width='100%';cl.style.marginTop='10px';
+  cl.onclick=()=>{o.m.classList.add('hide');stView.k=''};
+  o.sh.append(cl);o.m.append(o.sh);o.sh.scrollTop=o.sc;
+}
+function stRender(){
+  if(!ST)return;
+  if(stView.k==='stats')statsRender();else if(stView.k==='light')lightRender();
+}
+function stStart(){
+  clearInterval(stTimer);
+  stTimer=setInterval(()=>{
+    const m=$('modal');
+    const key=stView.k==='light'?'light'+stView.i:stView.k;
+    if(!stView.k||m.classList.contains('hide')||!m.firstChild||m.firstChild.dataset.v!==key){clearInterval(stTimer);return}
+    getStats(0).then(stRender);
+  },5000);
+}
+async function openStats(){
+  openR=null;
+  const m=$('modal');m.classList.remove('hide');m.innerHTML='';
+  m.onclick=e=>{if(e.target===m){m.classList.add('hide');stView.k=''}};
+  stView={k:'stats',i:-1,back:null};
+  await getStats(0);
+  if(!ST){toast(t('err'));m.classList.add('hide');stView.k='';return}
+  statsRender();stStart();
+}
+function statsRender(){
+  const o=stShell('stats'),sh=o.sh;
+  const hd=el('div','rhead');const ico=el('div','ico');ico.innerHTML=icon('chart');
+  hd.append(ico,el('h2','',t('stats')));sh.append(hd);
+  sh.append(seg([['t',t('today')],['7',t('d7')],['30',t('d30')],['a',t('allT')]],SP.p,v=>{SP.p=v;statsRender()}));
+  const ls=ST.l;
+  sh.append(kpiRow(sumAgg(ls,SP.p)));
+  const nowW=ls.reduce((a,l)=>a+l.pw,0)/10;
+  if(nowW>0){const lv=el('div','live');lv.append(el('i'),el('span','',t('nowP')+':'),el('b','',ltr(nowW.toFixed(1)+' W')));sh.append(lv)}
+  stWarn(sh,ls);
+  sh.append(metricSeg(statsRender));
+  if(ST.tv){
+    const n=(SP.p==='t'||SP.p==='7')?7:30;
+    const cs=sec(n===7?t('c7'):t('c30'),'chart');
+    cs.append(chartEl(series(ls,SP.m==='h'?'h':'e',n),SP.m));
+    sh.append(cs);
+  }
+  const rs=sec(t('byLight'),'bulb');
+  const rows=ls.map(l=>({l:l,a:agg(l,SP.p)})).sort((x,y)=>mval(y.a,SP.m)-mval(x.a,SP.m));
+  const mx=Math.max.apply(null,rows.map(r=>mval(r.a,SP.m)).concat([0]));
+  if(mx<=0)rs.append(el('div','msg',t('noUse')));
+  rows.forEach(r=>{
+    const b=el('button','rk');
+    const tp=el('div','rt');
+    tp.append(el('span','',lightLabel(r.l.i)),el('span','',fmtM(SP.m,mval(r.a,SP.m))));
+    const rb=el('div','rb');const f=el('i');f.style.width=(mx>0?Math.round(mval(r.a,SP.m)/mx*100):0)+'%';rb.append(f);
+    b.append(tp,rb);
+    b.onclick=()=>lightDash(r.l.i,openStats);
+    rs.append(b);
+  });
+  sh.append(rs);
+  stDone(o);
+}
+async function lightDash(i,back){
+  openR=null;
+  const m=$('modal');m.classList.remove('hide');
+  m.onclick=e=>{if(e.target===m){m.classList.add('hide');stView.k=''}};
+  stView={k:'light',i:i,back:back};
+  await getStats(0);
+  if(!ST){toast(t('err'));return}
+  lightRender();stStart();
+}
+function lightRender(){
+  const i=stView.i,l=ST.l[i];if(!l)return;
+  const o=stShell('light'+i),sh=o.sh;
+  const hd=el('div','rhead');
+  const bk=el('button','mp bk');bk.innerHTML=icon('chev');
+  bk.onclick=()=>{stView.k='';if(stView.back)stView.back()};
+  const ico=el('div','ico');ico.innerHTML=icon((S.ch[i].ic!==undefined&&S.ch[i].ic<ICL.length)?ICL[S.ch[i].ic]:roomIcon(lightLabel(i)));
+  hd.append(bk,ico,el('h2','',lightLabel(i)));sh.append(hd);
+  sh.append(seg([['t',t('today')],['7',t('d7')],['30',t('d30')],['a',t('allT')]],SP.p,v=>{SP.p=v;lightRender()}));
+  const a=agg(l,SP.p);
+  sh.append(kpiRow(a));
+  const live=el('div','live');
+  live.append(el('i'),el('span','',t('nowP')+':'),el('b','',ltr((l.pw/10).toFixed(1)+' W')));
+  sh.append(live);
+  stWarn(sh,[l]);
+  sh.append(metricSeg(lightRender));
+  if(ST.tv){
+    const n=(SP.p==='t'||SP.p==='7')?7:30;
+    const cs=sec(n===7?t('c7'):t('c30'),'chart');
+    cs.append(chartEl(series([l],SP.m==='h'?'h':'e',n),SP.m));
+    sh.append(cs);
+  }
+  const ds=sec(t('totalT'),'clock');
+  const kv=(k,v)=>{const r=el('div','kv');r.append(el('span','',k),el('b','',v));return r};
+  const T=agg(l,'a');
+  ds.append(kv(t('hrs'),fmtDur(T.sec)),kv(t('energy'),fmtE(T.mwh)),kv(t('cost'),fmtC(T.mwh)),
+    kv(t('switchOns'),String(T.cnt)),kv(t('powerL'),l.w>0?ltr((l.w/10)+' W'):'—'));
+  if(ST.since>0)ds.append(kv(t('sinceT'),new Date(ST.since*1000).toLocaleDateString(lang==='ar'?'ar':'en')));
+  sh.append(ds);
+  if(S.adm){
+    const rb=el('button','btn bad sm',t('resetOne'));rb.style.marginTop='10px';
+    rb.onclick=async()=>{
+      if(!confirm(t('sure')))return;
+      const r=await api('/api/stats/reset','POST',{i:i});
+      if(r.ok){ST=r;stAt=Date.now();toast(t('resetDone'));lightRender()}else toast(t('needPin'));
+    };
+    sh.append(rb);
+  }
+  stDone(o);
+}
+function roomUsageFill(){
+  const host=$('rusage');
+  if(!host||openR===null||!ST)return;
+  const r=S.rooms.find(x=>x.id===openR);if(!r)return;
+  rufAt=stAt;
+  while(host.children.length>1)host.removeChild(host.lastChild);
+  const ls=r.ch.map(i=>ST.l[i]);
+  host.append(el('div','grp',t('today')),kpiRow(sumAgg(ls,'t')));
+  if(ST.tv){
+    host.append(metricSeg(()=>{rufAt=0;roomUsageFill()}));
+    host.append(chartEl(series(ls,SP.m==='h'?'h':'e',7),SP.m));
+  }
+  ls.forEach(l=>{
+    const b=el('button','rk');
+    const tp=el('div','rt');
+    const a=agg(l,'t');
+    tp.append(el('span','',r.ch.length>1?S.ch[l.i].n:t('details')),el('span','',fmtDur(a.sec)+' · '+fmtE(a.mwh)));
+    b.append(tp);
+    b.onclick=()=>lightDash(l.i,()=>openRoom(r.id));
+    host.append(b);
+  });
+}
+function energySec(){
+  const s=sec(t('energyT'),'bolt');
+  const host=el('div');s.append(host);
+  getStats(0).then(()=>{
+    if(!ST){host.append(el('div','msg err',t('err')));return}
+    host.append(el('div','msg',t('energyH')));
+    const ins=[];
+    ST.l.forEach(l=>{
+      const row=el('div','inrow');
+      const f=el('input','fld');f.type='number';f.min=0;f.max=1000;f.step='0.1';f.inputMode='decimal';f.dir='ltr';
+      f.value=l.w>0?(l.w/10):'';f.placeholder='W';
+      const un=el('span','','W');un.style.cssText='color:var(--mut);font-size:13px;width:16px';
+      row.append(el('div','lab',lightLabel(l.i)),f,un);host.append(row);ins.push(f);
+    });
+    const pr=el('input','fld');pr.type='number';pr.min=0;pr.step='0.001';pr.inputMode='decimal';pr.dir='ltr';
+    pr.value=ST.price>0?ST.price:'';pr.placeholder=t('priceL');
+    const cu=el('input','fld');cu.maxLength=6;cu.value=ST.cur||'';cu.placeholder=t('curL');
+    const sv=el('button','btn',t('save'));sv.style.marginTop='8px';
+    sv.onclick=async()=>{
+      const r=await api('/api/config','POST',{watts:ins.map(x=>+x.value||0),price:+pr.value||0,cur:cu.value.trim()});
+      if(r.ok){stAt=0;await getStats(0);toast(t('saved'))}else toast(t('err'));
+    };
+    const ra=el('button','btn bad sm',t('resetAll'));ra.style.marginInlineStart='8px';
+    ra.onclick=async()=>{
+      if(!confirm(t('sure')))return;
+      const r=await api('/api/stats/reset','POST',{i:-1});
+      if(r.ok){ST=r;stAt=Date.now();toast(t('resetDone'))}else toast(t('needPin'));
+    };
+    host.append(el('div','msg',t('priceL')),pr,el('div','msg',t('curL')),cu,sv,ra);
+  });
+  return s;
+}
+/* ---------- pairing helper ---------- */
+function pairButton(i,out){
+  const b=el('button','btn sm sec2',t('pair'));
+  b.onclick=async()=>{
+    out.className='msg';
+    const r0=await api('/api/learn/start','POST',{i:i});
+    if(r0._s!==200){out.textContent=t('err');out.className='msg err';return}
+    out.textContent=t('flip');
+    const tm=setInterval(async()=>{
+      const r=await api('/api/learn/status');
+      if(r.phase===1)out.textContent=t('flip');
+      else if(r.phase===2)out.textContent=t('flipback');
+      else if(r.phase===3){out.textContent=t('paired')+' '+(r.sw+1);clearInterval(tm)}
+      else{out.textContent=t('failed');out.className='msg err';clearInterval(tm)}
+    },500);
+  };
+  return b;
+}
+async function scanInto(sel,btn){
+  btn.disabled=true;sel.innerHTML='';
+  let r={};
+  for(let k=0;k<15;k++){r=await api('/api/scan');if(r.s===1)break;await new Promise(z=>setTimeout(z,1000))}
+  btn.disabled=false;
+  (r.nets||[]).forEach(n=>{const o=document.createElement('option');o.value=n.ssid;o.textContent=n.ssid+'  ('+n.rssi+')';sel.append(o)});
+}
+/* ---------- schedules ---------- */
+const CITIES=[['عمّان / Amman',31.95,35.93],['دمشق / Damascus',33.51,36.29],['بيروت / Beirut',33.89,35.5],['القدس / Jerusalem',31.77,35.21],['رام الله / Ramallah',31.9,35.2],['غزة / Gaza',31.5,34.47],['بغداد / Baghdad',33.31,44.36],['الرياض / Riyadh',24.71,46.68],['القاهرة / Cairo',30.04,31.24],['دبي / Dubai',25.2,55.27],['الكويت / Kuwait',29.38,47.99],['الدوحة / Doha',25.29,51.53],['إسطنبول / Istanbul',41.01,28.98]];
+const DAYN={ar:['أحد','اثنين','ثلاثاء','أربعاء','خميس','جمعة','سبت'],en:['Sun','Mon','Tue','Wed','Thu','Fri','Sat']};
+let SC=null,ED=null;
+function ARW(){return lang==='ar'?'\u2190':'\u2192'}
+function hm(m){m=((m%1440)+1440)%1440;return String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0')}
+function utcTxt(z){const a=Math.abs(z);return 'UTC'+(z<0?'-':'+')+Math.floor(a/60)+(a%60?':'+String(a%60).padStart(2,'0'):'')}
+function offTxt(v){return v===0?'':' '+(v>0?'+':'−')+Math.abs(v)+' '+t('mn')}
+function trigTxt(s){return s.k===0?hm(s.v):(s.k===1?t('sunrise'):t('sunset'))+offTxt(s.v)}
+function daysTxt(d){return d===127?t('everyDay'):DAYN[lang].filter((n,i)=>(d>>i)&1).join('، ')}
+function targetsTxt(mask){
+  if(mask===255)return t('all');
+  const out=[];
+  S.rooms.forEach(r=>{
+    const on=r.ch.filter(i=>(mask>>i)&1);
+    if(!on.length)return;
+    if(on.length===r.ch.length)out.push(r.n);else on.forEach(i=>out.push(S.ch[i].n));
+  });
+  return out.join('، ');
+}
+function openSched(){
+  openR=null;
+  const m=$('modal');m.classList.remove('hide');m.innerHTML='';
+  m.onclick=e=>{if(e.target===m)m.classList.add('hide')};
+  if(!can(P_VIEW)){loginUI(openSched,P_VIEW);return}
+  loadSched();
+}
+async function loadSched(){
+  const r=await api('/api/sched');
+  if(r._s===401){loginUI(openSched,P_VIEW);return}
+  if(r._s===403){toast(t('ac_noPerm'));return}
+  SC=r;schedList();
+}
+async function saveSched(list){
+  const r=await api('/api/sched','POST',{list:list});
+  if(r._s===401){loginUI(openSched,P_SCHED);return false}
+  if(r._s===403){toast(t('ac_noPerm'));return false}
+  if(!r.ok){toast(t('err'));return false}
+  SC=r;toast(t('saved'));return true;
+}
+let SF=-1;
+function schedList(){
+  const m=$('modal');m.innerHTML='';
+  const sh=el('div','sheet');
+  const hd=el('div','rhead');
+  const h2=el('h2','',t('sched'));
+  const add=el('button','mp big');add.innerHTML=icon('plus');
+  add.onclick=()=>{if(SC.list.length>=SC.max){toast(t('tx_full'));return}ED={i:-1,e:1,m:SF>=0?(1<<SF):255,d:127,k:0,v:1080,x:-1,a:1,b:0};schedEdit()};
+  hd.append(h2);if(can(P_SCHED))hd.append(add);sh.append(hd);
+  if(!SC.tv)sh.append(el('div','warn2',t('noTime')));
+  if(!SC.ls)sh.append(el('div','warn2',t('needLoc')));
+  if(SC.sr>=0){
+    const sr=el('div','sunrow');
+    const a=el('div');a.append(ic('sunrise'),el('span','',t('sunrise')),el('b','',hm(SC.sr)));
+    const b=el('div');b.append(ic('sunset'),el('span','',t('sunset')),el('b','',hm(SC.ss)));
+    sr.append(a,b);sh.append(sr);
+  }
+  const fc=el('div','ichips');
+  const a0=el('button','chip'+(SF<0?' on':''),t('all'));a0.onclick=()=>{SF=-1;schedList()};fc.append(a0);
+  S.ch.forEach(c=>{
+    const b=el('button','chip'+(SF===c.i?' on':''));
+    b.append(ic(lightIc(c)),document.createTextNode(' '+lightLabel(c.i)));
+    b.onclick=()=>{SF=c.i;schedList()};fc.append(b);
+  });
+  sh.append(fc);
+  const rows=SC.list.map((s,i)=>({s:s,i:i})).filter(x=>SF<0||((x.s.m>>SF)&1));
+  if(!rows.length)sh.append(el('div','msg',t('noSched')));
+  rows.forEach(x=>{
+    const s=x.s,i=x.i;
+    const c=el('div','sc'+(s.e?'':' off'));
+    const ico=el('div','ico');ico.innerHTML=icon(s.k===1?'sunrise':s.k===2?'sunset':'clock');
+    if(s.e){ico.style.background='var(--acc)';ico.style.color='var(--onacc)'}
+    const mid=el('div','mid');
+    const when=trigTxt(s)+(s.x>=0?' '+ARW()+' '+hm(s.x):'');
+    mid.append(el('div','t1',when),el('div','t2',(s.a?t('turnOn')+(s.b?' '+s.b+'%':''):t('turnOff'))+' \u00b7 '+targetsTxt(s.m)+' \u00b7 '+daysTxt(s.d)));
+    const sw=el('button','sw'+(s.e?' on':''));sw.append(el('i'));sw.disabled=!can(P_SCHED);
+    sw.onclick=async e=>{
+      e.stopPropagation();
+      const list=SC.list.map((q,j)=>j===i?Object.assign({},q,{e:q.e?0:1}):q);
+      if(await saveSched(list))schedList();
+    };
+    c.append(ico,mid,sw);
+    if(can(P_SCHED))c.onclick=()=>{ED=Object.assign({i:i},s);schedEdit()};
+    sh.append(c);
+  });
+  if(S.adm)schedLoc(sh);
+  const cl=el('button','btn sec2',t('close'));cl.style.width='100%';cl.style.marginTop='10px';
+  cl.onclick=()=>m.classList.add('hide');
+  sh.append(cl);m.append(sh);
+}
+function schedLoc(sh){
+  const sc=sec(t('locT'),'room');
+  const phoneTz=-new Date().getTimezoneOffset();
+  sc.append(el('div','msg',t('tzNow')+': '+utcTxt(SC.tzo)));
+  if(phoneTz!==SC.tzo){
+    sc.append(el('div','warn2',t('tzMis')+' ('+utcTxt(phoneTz)+')'));
+    const tb=el('button','btn sm sec2',t('tzSync'));
+    tb.onclick=async()=>{const r=await api('/api/config','POST',{tz:phoneTz});if(r.ok)loadSched();else toast(t('err'))};
+    sc.append(tb);
+  }
+  const sel=el('select','fld');
+  const o0=document.createElement('option');o0.value='';o0.textContent=t('city');sel.append(o0);
+  CITIES.forEach((c,i)=>{const o=document.createElement('option');o.value=i;o.textContent=c[0];sel.append(o)});
+  const la=el('input','fld');la.type='number';la.step='0.01';la.placeholder=t('lat');la.dir='ltr';
+  const lo=el('input','fld');lo.type='number';lo.step='0.01';lo.placeholder=t('lon');lo.dir='ltr';
+  if(SC.ls){la.value=SC.lat;lo.value=SC.lon}
+  sel.onchange=()=>{if(sel.value!==''){la.value=CITIES[+sel.value][1];lo.value=CITIES[+sel.value][2]}};
+  const sv=el('button','btn',t('save'));sv.style.marginTop='6px';
+  sv.onclick=async()=>{
+    if(la.value===''||lo.value==='')return;
+    const r=await api('/api/config','POST',{lat:+la.value,lon:+lo.value});
+    if(r.ok){toast(t('saved'));loadSched()}else toast(t('err'));
+  };
+  sc.append(sel,la,lo,sv);sh.append(sc);
+}
+function schedEdit(){
+  const m=$('modal');m.innerHTML='';
+  const sh=el('div','sheet');
+  sh.append(el('h2','',ED.i<0?t('newSched'):t('editSched')));
+  const s1=sec(t('act'),'power');
+  s1.append(seg([[1,t('turnOn')],[0,t('turnOff')]],ED.a,v=>{ED.a=v;schedEdit()}));
+  if(ED.a){
+    const keep=el('button','chip'+(ED.b===0?' on':''),t('keepBri'));
+    keep.onclick=()=>{ED.b=ED.b===0?100:0;schedEdit()};
+    s1.append(keep);
+    if(ED.b>0){
+      const st=el('div','msg',t('briL')+' '+ED.b+'%');
+      const sl=document.createElement('input');sl.type='range';sl.min=1;sl.max=100;sl.value=ED.b;sl.style.setProperty('--v',ED.b+'%');sl.style.opacity=1;
+      sl.oninput=()=>{ED.b=+sl.value;sl.style.setProperty('--v',sl.value+'%');st.textContent=t('briL')+' '+sl.value+'%'};
+      s1.append(st,sl);
+    }
+  }
+  sh.append(s1);
+  const s2=sec(t('trig'),'clock');
+  s2.append(seg([[0,t('atTime')],[1,t('sunrise')],[2,t('sunset')]],ED.k,v=>{ED.k=v;ED.v=v===0?1080:0;schedEdit()}));
+  if(ED.k===0){
+    const ti=el('input','fld');ti.type='time';ti.value=hm(ED.v);
+    ti.onchange=()=>{const p=ti.value.split(':');if(p.length===2)ED.v=(+p[0])*60+(+p[1])};
+    s2.append(ti);
+  }else{
+    const sel=el('select','fld');
+    const offs=[-120,-90,-60,-45,-30,-20,-15,-10,-5,0,5,10,15,20,30,45,60,90,120];
+    if(!offs.includes(ED.v)){offs.push(ED.v);offs.sort((a,b)=>a-b)}
+    offs.forEach(v=>{const o=document.createElement('option');o.value=v;o.textContent=v===0?t('exact'):(v<0?t('before'):t('after'))+' '+Math.abs(v)+' '+t('mn');sel.append(o)});
+    sel.value=ED.v;sel.onchange=()=>{ED.v=+sel.value};
+    s2.append(sel);
+  }
+  sh.append(s2);
+  if(ED.a){
+    const su=sec(t('sc_until'),'power');
+    const hasX=ED.x>=0;
+    su.append(seg([[0,t('sc_none')],[1,t('sc_at')]],hasX?1:0,v=>{
+      ED.x=v?(ED.x>=0?ED.x:((ED.k===0?ED.v:1080)+240)%1440):-1;schedEdit();
+    }));
+    if(hasX){
+      const xi=el('input','fld');xi.type='time';xi.value=hm(ED.x);
+      xi.onchange=()=>{const q=xi.value.split(':');if(q.length===2)ED.x=(+q[0])*60+(+q[1])};
+      su.append(xi,el('div','msg',t('sc_untilH')));
+    }
+    sh.append(su);
+  }
+  const s3=sec(t('days'),'home');
+  const dc=el('div','chips');
+  const ev=el('button','chip'+(ED.d===127?' on':''),t('everyDay'));
+  ev.onclick=()=>{ED.d=ED.d===127?0:127;schedEdit()};
+  dc.append(ev);
+  DAYN[lang].forEach((n,i)=>{
+    const b=el('button','chip'+((ED.d>>i)&1?' on':''),n);
+    b.onclick=()=>{ED.d^=(1<<i);schedEdit()};
+    dc.append(b);
+  });
+  s3.append(dc);sh.append(s3);
+  const s4=sec(t('lightsT'),'bulb');
+  const lc=el('div','chips');
+  const al=el('button','chip'+(ED.m===255?' on':''),t('all'));
+  al.onclick=()=>{ED.m=ED.m===255?0:255;schedEdit()};
+  lc.append(al);s4.append(lc);
+  S.rooms.forEach(r=>{
+    if(r.ch.length>1)s4.append(el('div','grp',r.n));
+    const c=el('div','chips');
+    r.ch.forEach(i=>{
+      const b=el('button','chip'+((ED.m>>i)&1?' on':''),r.ch.length>1?S.ch[i].n:r.n);
+      b.onclick=()=>{ED.m^=(1<<i);schedEdit()};
+      c.append(b);
+    });
+    s4.append(c);
+  });
+  sh.append(s4);
+  const out=el('div','msg err');sh.append(out);
+  const row=el('div','row');
+  const sv=el('button','btn',t('save'));sv.style.flex='1';
+  sv.onclick=async()=>{
+    if(!ED.m){out.textContent=t('pickLight');return}
+    if(!ED.d){out.textContent=t('pickDay');return}
+    const o={e:ED.e,m:ED.m,d:ED.d,k:ED.k,v:ED.v,a:ED.a,b:ED.a?ED.b:0,x:ED.a?ED.x:-1};
+    const list=SC.list.slice();
+    if(ED.i<0)list.push(o);else list[ED.i]=o;
+    if(await saveSched(list))schedList();
+  };
+  const bk=el('button','btn sec2',t('back'));bk.onclick=schedList;
+  row.append(bk,sv);
+  if(ED.i>=0){
+    const dl=el('button','btn bad sm');dl.innerHTML=icon('trash');dl.style.fontSize='20px';
+    dl.onclick=async()=>{const list=SC.list.filter((x,j)=>j!==ED.i);if(await saveSched(list))schedList()};
+    row.append(dl);
+  }
+  sh.append(row);m.append(sh);
+}
+function seg(opts,val,fn){
+  const d=el('div','seg');
+  opts.forEach(o=>{const b=el('button',o[0]===val?'on':'',o[1]);b.onclick=()=>fn(o[0]);d.append(b)});
+  return d;
+}
+/* ---------- settings ---------- */
+function openSettings(){
+  openR=null;
+  const m=$('modal');m.classList.remove('hide');m.innerHTML='';
+  m.onclick=e=>{if(e.target===m)m.classList.add('hide')};
+  if(S.adm)adminUI();else meUI();
+}
+function loginUI(next,perm){
+  const m=$('modal');m.classList.remove('hide');m.innerHTML='';
+  m.onclick=e=>{if(e.target===m)m.classList.add('hide')};
+  const sh=el('div','sheet');m.append(sh);
+  loginBox(sh,()=>{
+    if(perm&&!can(perm)){m.classList.add('hide');view='';render();toast(t('ac_noPerm'));return}
+    view='';render();
+    (next||openSettings)();
+  },()=>m.classList.add('hide'));
+}
+function meSec(){
+  const s=sec(t('ac_mine'),'user');
+  const me=S.me||{a:-1};
+  const kv=el('div','kv');
+  kv.append(el('span','',me.n||t('ac_guest')),el('b','',me.a>=0?roleTxt(me.r):''));
+  s.append(kv);
+  if(me.a>=1){
+    const ni=el('input','fld');ni.maxLength=14;ni.value=me.n||'';
+    const rn=el('button','btn sm',t('me_rename'));
+    rn.onclick=async()=>{
+      const n=ni.value.trim();if(!n)return;
+      const r=await api('/api/me','POST',{name:n});
+      if(r.ok){localStorage.setItem('nm',n);JN=n;await refreshState();toast(t('saved'));dashBuild();dashUpdate()}
+      else toast(r.err==='banned'?t('j_banned'):t('err'));
+    };
+    const row=el('div','row');row.append(ni,rn);s.append(row);
+    const r2=el('div','row');
+    if(me.r!==0){const ad=el('button','btn sm sec2',t('me_toAdmin'));ad.onclick=()=>loginUI(openSettings);r2.append(ad)}
+    const lo=el('button','btn sm sec2',t('me_forget'));
+    lo.onclick=()=>{if(confirm(t('sure')))logout()};
+    r2.append(lo);s.append(r2);
+  }
+  return s;
+}
+function pinSec(){
+  const sp=sec(t('pw_title'),'pin');
+  const o1=el('input','fld');o1.type='password';o1.maxLength=32;o1.placeholder=t('pw_old');
+  const n1=el('input','fld');n1.type='password';n1.maxLength=32;n1.placeholder=t('pw_new');
+  const sv4=el('button','btn',t('save'));
+  sv4.onclick=async()=>{
+    if(n1.value.length<4||n1.value.length>32){toast(t('pw_bad'));return}
+    const r=await api('/api/pw','POST',{old:o1.value,pw:n1.value});
+    if(r.ok){toast(t('saved'));o1.value='';n1.value=''}
+    else toast(r._s===403?t('wrong'):t('err'));
+  };
+  sp.append(o1,n1,sv4);
+  return sp;
+}
+function meUI(){
+  openR=null;
+  const m=$('modal');m.classList.remove('hide');m.innerHTML='';
+  m.onclick=e=>{if(e.target===m)m.classList.add('hide')};
+  const sh=el('div','sheet');
+  sh.append(el('h2','',t('ac_mine')));
+  sh.append(meSec());
+  const cl=el('button','btn sec2',t('close'));cl.style.width='100%';cl.style.marginTop='10px';cl.onclick=()=>m.classList.add('hide');
+  sh.append(cl);m.append(sh);
+}
+let E=null;
+function editorInit(){E={rooms:S.rooms.map(r=>({n:r.n,ch:r.ch.slice(),ic:r.ic===undefined?255:r.ic})),names:S.ch.map(c=>c.n),icons:S.ch.map(c=>c.ic===undefined?255:c.ic),pick:null}}
+function roomIdx(i){return E.rooms.findIndex(r=>r.ch.includes(i))}
+function moveLight(i,k){
+  const dst=E.rooms[k];
+  E.rooms.forEach(r=>{r.ch=r.ch.filter(x=>x!==i)});
+  dst.ch.push(i);dst.ch.sort((a,b)=>a-b);
+  E.rooms=E.rooms.filter(r=>r.ch.length||r===dst);
+}
+function delRoom(k){
+  const r=E.rooms[k];
+  E.rooms=E.rooms.filter((x,j)=>j===k||x.ch.length);
+  E.rooms.splice(E.rooms.indexOf(r),1);
+  r.ch.forEach(i=>E.rooms.push({n:E.names[i],ch:[i],ic:255}));
+}
+function iconPicker(cur,fn){
+  const d=el('div','ichips');
+  const a=el('button','chip'+(cur>=ICL.length?' on':''),t('ic_auto'));a.onclick=()=>fn(255);d.append(a);
+  ICL.forEach((n,k)=>{const b=el('button','chip'+(cur===k?' on':''));b.innerHTML=icon(n);b.onclick=()=>fn(k);d.append(b)});
+  return d;
+}
+function editorUI(host){
+  host.innerHTML='';
+  const sr=sec(t('rooms'),'room');
+  E.rooms.forEach((r,k)=>{
+    const row=el('div','row');
+    const ri=el('button','rico');ri.innerHTML=icon(r.ic<ICL.length?ICL[r.ic]:roomIcon(r.n));
+    ri.onclick=()=>{E.pick=(E.pick==='r'+k)?null:'r'+k;editorUI(host)};
+    const inp=el('input','fld');inp.value=r.n;inp.maxLength=24;inp.placeholder=t('roomName');
+    inp.oninput=()=>{r.n=inp.value;if(r.ic>=ICL.length)ri.innerHTML=icon(roomIcon(inp.value))};
+    inp.onchange=()=>editorUI(host);
+    const del=el('button','btn sm sec2');del.innerHTML=icon('trash');
+    del.onclick=()=>{delRoom(k);editorUI(host)};
+    row.append(ri,inp,del);sr.append(row);
+    if(E.pick==='r'+k)sr.append(iconPicker(r.ic,v=>{r.ic=v;E.pick=null;editorUI(host)}));
+    if(!r.ch.length)sr.append(el('div','msg',t('emptyRoom')));
+  });
+  const add=el('button','btn sm sec2',t('addRoom'));
+  add.onclick=()=>{if(E.rooms.length>=8){toast(t('maxRooms'));return}E.rooms.push({n:t('newRoom'),ch:[],ic:255});editorUI(host)};
+  sr.append(add);
+  host.append(sr);
+  const sl=sec(t('lights'),'bulb');
+  E.names.forEach((nm,i)=>{
+    const r1=el('div','row');
+    const lb=el('button','rico');lb.innerHTML=icon(E.icons[i]<ICL.length?ICL[E.icons[i]]:'bulb');
+    lb.onclick=()=>{E.pick=(E.pick==='l'+i)?null:'l'+i;editorUI(host)};
+    const inp=el('input','fld');inp.value=nm;inp.maxLength=24;inp.placeholder=t('lightName');inp.oninput=()=>{E.names[i]=inp.value};
+    const sel=el('select','fld');sel.style.flex='0 0 40%';
+    E.rooms.forEach((r,k)=>{const o=document.createElement('option');o.value=k;o.textContent=r.n;sel.append(o)});
+    sel.value=roomIdx(i);
+    sel.onchange=()=>{moveLight(i,+sel.value);editorUI(host)};
+    r1.append(lb,inp,sel);
+    const r2=el('div','row');
+    const out=el('div','msg');
+    r2.append(pairButton(i,out),out);
+    sl.append(r1);
+    if(E.pick==='l'+i)sl.append(iconPicker(E.icons[i],v=>{E.icons[i]=v;E.pick=null;editorUI(host)}));
+    sl.append(r2);
+  });
+  const fd=el('input','fld');fd.type='number';fd.min=0;fd.max=5000;fd.value=S.fade;
+  sl.append(el('div','msg',t('fade')),fd);
+  const sv=el('button','btn',t('save'));sv.style.marginTop='8px';
+  sv.onclick=async()=>{
+    const rooms=E.rooms.filter(r=>r.ch.length).map(r=>({n:r.n.trim()||'Room',ch:r.ch,ic:r.ic}));
+    const r1=await api('/api/config','POST',{names:E.names.map(x=>x.trim()),fade:+fd.value});
+    const r2=await api('/api/rooms','POST',{rooms:rooms,icons:E.icons});
+    toast(r1.ok&&r2.ch?t('saved'):t('err'));
+    if(r2.ch){S=r2;sig='';editorInit();editorUI(host)}
+  };
+  sl.append(sv);
+  host.append(sl);
+}
+function otaFmtDate(e){if(!e)return '';const d=new Date(e*1000);return d.toLocaleDateString()+' '+d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}
+function otaUp(f,onp){
+  return new Promise(res=>{
+    const x=new XMLHttpRequest();
+    x.open('POST','/api/ota');
+    if(token)x.setRequestHeader('X-Token',token);
+    x.upload.onprogress=e=>{if(e.lengthComputable)onp(e.loaded/e.total)};
+    x.onload=()=>{let j={};try{j=JSON.parse(x.responseText)}catch(e){}res(j)};
+    x.onerror=()=>res({ok:false,err:'net'});
+    x.ontimeout=()=>res({ok:false,err:'net'});
+    x.timeout=300000;
+    const fd=new FormData();fd.append('fw',f,f.name);x.send(fd);
+  });
+}
+async function otaWaitBack(msg){
+  msg.className='msg';msg.textContent=t('ota_restart');
+  const t0=Date.now();
+  await new Promise(r=>setTimeout(r,6000));
+  while(Date.now()-t0<90000){
+    try{const r=await fetch('/api/state',{cache:'no-store'});if(r.ok){location.reload();return}}catch(e){}
+    await new Promise(r=>setTimeout(r,2000));
+  }
+  msg.className='msg err';msg.textContent=t('ota_noback');
+}
+function otaSection(){
+  const su=sec(t('upd'),'chip');
+  const info=el('div','msg','...');
+  const fi=el('input','fld');fi.type='file';
+  const pg=el('div','prog hide');pg.append(document.createElement('i'));
+  const msg=el('div','msg hide');
+  const bu=el('button','btn',t('up'));
+  const rb=el('button','btn sec2 hide',t('ota_rb'));
+  api('/api/fwinfo').then(r=>{
+    if(!r.fw){info.textContent=t('err');return}
+    let x=t('ota_cur')+': '+r.fw+'  ('+r.built+')';
+    if(r.from)x+='\n'+t('ota_last')+': '+r.from+' → '+r.fw+(r.when?'  '+otaFmtDate(r.when):'');
+    if(r.prevOk){x+='\n'+t('ota_prev')+': '+r.prevBuilt;rb.classList.remove('hide')}
+    info.style.whiteSpace='pre-line';info.textContent=x;
+  }).catch(()=>{info.textContent=t('err')});
+  const note=el('div','msg',t('ota_h'));
+  const lock=on=>{bu.disabled=on;rb.disabled=on;fi.disabled=on};
+  const fail=e=>{msg.classList.remove('hide');msg.className='msg err';msg.textContent=t('ota_e_'+e)==='ota_e_'+e?t('err'):t('ota_e_'+e)};
+  bu.onclick=async()=>{
+    const f=fi.files[0];
+    if(!f){msg.className='msg err';msg.textContent=t('ota_pick');return}
+    if(!/\.bin$/i.test(f.name)){fail('notapp');return}
+    if(/factory/i.test(f.name)){fail('factory');return}
+    if(!confirm(t('ota_q')))return;
+    lock(true);pg.classList.remove('hide');const bar=pg.firstChild;bar.style.width='0';
+    msg.className='msg';msg.textContent=t('ota_up');
+    const r=await otaUp(f,x=>{bar.style.width=Math.round(x*100)+'%'});
+    if(r.ok){bar.style.width='100%';await otaWaitBack(msg)}
+    else{pg.classList.add('hide');lock(false);fail(r.err||'net')}
+  };
+  rb.onclick=async()=>{
+    if(!confirm(t('ota_rbq')))return;
+    lock(true);
+    const r=await api('/api/rollback','POST',{});
+    if(r.ok){msg.classList.remove('hide');await otaWaitBack(msg)}
+    else{lock(false);msg.classList.remove('hide');msg.className='msg err';msg.textContent=r.err==='noprev'?t('ota_e_noprev'):t('err')}
+  };
+  su.append(info,note,fi,pg,msg,bu,rb);
+  return su;
+}
+function sec(title,ico){const s=el('div','sec');const h=el('h3');h.append(ic(ico||'gear'),document.createTextNode(title));s.append(h);return s}
+function adminUI(){
+  const m=$('modal');m.innerHTML='';
+  const sh=el('div','sheet');
+  sh.append(el('h2','',t('settings')));
+  sh.append(meSec());
+  editorInit();
+  const host=el('div');sh.append(host);editorUI(host);
+  sh.append(energySec());
+  const so=sec(t('own'),'wifi');
+  so.append(el('div','msg',t('ownH')));
+  const as=el('input','fld');as.value=S.apS||'';as.placeholder=t('ssid');
+  const ap=el('input','fld');ap.type='password';ap.placeholder=t('pwHint');
+  const sv2=el('button','btn',t('save'));
+  sv2.onclick=async()=>{
+    const r=await api('/api/config','POST',{apSsid:as.value.trim(),apPass:ap.value});
+    toast(r.ok?t('saved'):t('err'));
+  };
+  so.append(as,ap,sv2);sh.append(so);
+  const sw=sec(t('wifi'),'wifi');
+  const sel=el('select','fld');
+  const sc=el('button','btn sm sec2',t('scan'));sc.onclick=()=>scanInto(sel,sc);
+  const wp=el('input','fld');wp.type='password';wp.placeholder=t('pass');
+  const sv3=el('button','btn',t('save'));
+  sv3.onclick=async()=>{
+    if(!sel.value)return;
+    const r=await api('/api/wifi','POST',{ssid:sel.value,pass:wp.value});
+    toast(r.ok?t('saved'):t('err'));
+  };
+  sw.append(sc,sel,wp,sv3);sh.append(sw);
+  if(can(P_OWNER))sh.append(pinSec());
+  if(can(P_EDIT))sh.append(otaSection());
+  if(can(P_EDIT)){
+    const sa=sec(t('us_title'),'users');
+    const ba=el('button','btn sec2',t('us_title'));ba.onclick=openAccounts;
+    sa.append(ba);sh.append(sa);
+  }
+  const sg=sec(t('gp_title'),'chip');
+  const bg=el('button','btn sec2',t('gp_title'));bg.onclick=openGpio;
+  sg.append(bg);sh.append(sg);
+  const ssd=sec(t('sd_title'),'sd');
+  const bsd=el('button','btn sec2',t('sd_title'));bsd.onclick=openSd;
+  ssd.append(bsd);sh.append(ssd);
+  if(can(P_EDIT)){
+    const srm=sec(t('rm_title'),'wifi');
+    const brm=el('button','btn sec2',t('rm_title'));brm.onclick=openRemote;
+    srm.append(brm);sh.append(srm);
+  }
+  const sm=sec(t('maint'),'gear');
+  const br=el('button','btn sec2',t('restart'));
+  br.onclick=async()=>{if(confirm(t('sure'))){await api('/api/restart','POST',{});toast('...')}};
+  const bf=el('button','btn bad',t('factory'));
+  bf.style.marginInlineStart='8px';
+  bf.onclick=async()=>{
+    if(!confirm(t('sure')))return;
+    const p=prompt(t('pinT'));if(!p)return;
+    const r=await api('/api/factory','POST',{pw:p});
+    toast(r.ok?t('saved'):t('wrong'));
+  };
+  sm.append(br);if(can(P_OWNER))sm.append(bf);sh.append(sm);
+  const cl=el('button','btn sec2',t('close'));cl.style.width='100%';cl.onclick=()=>$('modal').classList.add('hide');
+  sh.append(cl);
+  m.append(sh);
+}
+/* ---------- accounts (owner) ---------- */
+let AC=null;
+async function openAccounts(){
+  const r=await api('/api/acc');
+  if(!r.ok){toast(t('ac_noPerm'));return}
+  AC=r;accList();
+}
+async function accAct(op,a){
+  const r=await api('/api/acc','POST',{op:op,a:a});
+  if(r.ok){AC=r;accList()}else toast(r.err==='admin'?t('us_noBanAdmin'):t('err'));
+}
+function accList(){
+  const m=$('modal');m.classList.remove('hide');m.innerHTML='';
+  const sh=el('div','sheet');
+  sh.append(el('h2','',t('us_title')),el('div','msg',t('us_hint')));
+  if(!AC.list.length)sh.append(el('div','msg',t('us_empty')));
+  AC.list.forEach(x=>{
+    const c=el('div','sc'+(x.b?' off':''));
+    const ico=el('div','ico');ico.innerHTML=icon(x.b?'ban':(ROLEIC[x.r]||'user'));
+    if(!x.b){ico.style.background='var(--acc)';ico.style.color='var(--onacc)'}
+    const mid=el('div','mid');
+    mid.append(el('div','t1',x.n||('#'+(x.a+1))),el('div','t2',roleTxt(x.r)+(x.b?' · '+t('us_banned'):'')+(x.me?' · '+t('us_you'):'')));
+    c.append(ico,mid);
+    if(!x.me){
+      if(x.r!==0){
+        const bb=el('button','btn sm '+(x.b?'sec2':'bad'),x.b?t('us_unban'):t('us_ban'));
+        bb.onclick=()=>{if(x.b||confirm(t('us_confirmBan')))accAct(x.b?'unban':'ban',x.a)};
+        c.append(bb);
+      }
+      const dl=el('button','btn sm sec2');dl.innerHTML=icon('trash');
+      dl.onclick=()=>{if(confirm(t('sure')))accAct('del',x.a)};
+      c.append(dl);
+    }
+    sh.append(c);
+  });
+  const bk=el('button','btn sec2',t('back'));bk.style.cssText='width:100%;margin-top:10px';bk.onclick=adminUI;
+  sh.append(bk);m.append(sh);
+}
+/* ---------- GPIO / hardware screen ---------- */
+let GT=null;
+function gpStop(){if(GT){clearInterval(GT);GT=null}}
+function openGpio(){
+  const m=$('modal');m.classList.remove('hide');m.innerHTML='';
+  m.onclick=e=>{if(e.target===m){m.classList.add('hide');gpStop()}};
+  const sh=el('div','sheet');
+  const hd=el('div','rhead');const ico=el('div','ico');ico.innerHTML=icon('chip');
+  hd.append(ico,el('h2','',t('gp_title')));sh.append(hd);
+  sh.append(el('div','msg',t('gp_h')));
+  const body=el('div');body.id='gpbody';sh.append(body);
+  const bk=el('button','btn sec2',t('back'));bk.style.cssText='width:100%;margin-top:10px';
+  bk.onclick=()=>{gpStop();adminUI()};sh.append(bk);
+  m.append(sh);
+  gpStop();gpTick();GT=setInterval(gpTick,1000);
+}
+async function gpTick(){
+  const body=$('gpbody');
+  if(!body||$('modal').classList.contains('hide')){gpStop();return}
+  const r=await api('/api/gpio');
+  const b2=$('gpbody');if(!b2)return;
+  if(!r.ok){b2.innerHTML='';b2.append(el('div','msg err',t('err')));return}
+  gpRender(b2,r);
+}
+function gpRow(pn,nm,vl,mid){
+  const r=el('div','gp');
+  r.append(el('span','pn',pn),el('span','nm',nm));
+  if(mid)r.append(mid);
+  r.append(el('span','vl',vl));
+  return r;
+}
+function gpKv(k,v){const r=el('div','kv');r.append(el('span','',k),el('b','',v));const b=r.lastChild;b.style.direction='ltr';return r}
+function kbTxt(n){return n>=1048576?(n/1048576).toFixed(1)+' MB':Math.round(n/1024)+' KB'}
+function upTxt(s){const d=Math.floor(s/86400),h=Math.floor(s%86400/3600),mi=Math.floor(s%3600/60);return (d?d+'d ':'')+h+'h '+mi+'m'}
+function gpRender(body,r){
+  body.innerHTML='';
+  const so=sec(t('gp_out'),'bolt');
+  r.out.forEach((o,i)=>{
+    const x=o.d/1000,pwm=Math.round(x*x*100);
+    const bar=el('span','bar');const f=document.createElement('i');f.style.width=Math.round(o.d/10)+'%';bar.append(f);
+    so.append(gpRow('GPIO '+o.p,o.n,'PWM '+pwm+'%',bar));
+  });
+  so.append(el('div','msg',t('gp_inv')));
+  body.append(so);
+  const si=sec(t('gp_in'),'power');
+  r.in.forEach((k,i)=>{
+    const dot=el('span','gd'+(k.st?' on':''));
+    const nm=k.c>=0?r.out[k.c].n:t('gp_free');
+    const row=gpRow('GPIO '+k.p,nm,k.mv+' mV',dot);
+    row.title=t('gp_thr')+' '+k.mid+' ± '+k.hy+' mV';
+    si.append(row);
+  });
+  si.append(el('div','msg',t('gp_thr')+': '+r.in.map(k=>k.mid).join(' / ')+' mV'));
+  body.append(si);
+  const sd=sec(t('gp_dev'),'chip');
+  const od=el('span','gd'+(r.sys.oled?' on':' bad'));
+  sd.append(gpRow('GPIO '+r.sys.sda+' / '+r.sys.scl,t('gp_oled'),r.sys.oled?t('gp_found'):t('gp_missing'),od));
+  const sdd=el('span','gd'+(r.sys.sd?' on':' bad'));sd.append(gpRow('GPIO '+r.sys.sdp.join('/'),t('gp_sd'),r.sys.sd?t('gp_sdOn'):t('gp_sdOff'),sdd));
+  const bd=el('span','gd'+(r.sys.boot===0?' on':''));
+  sd.append(gpRow('GPIO 0',t('gp_boot'),r.sys.boot===0?t('gp_pressed'):t('gp_rel'),bd));
+  body.append(sd);
+  const sy=sec(t('gp_sys'),'gear');const y=r.sys;
+  sy.append(gpKv(t('gp_fw'),S.fw||''),gpKv(t('gp_up'),upTxt(y.up)),gpKv(t('gp_heap'),kbTxt(y.heap)+' / '+kbTxt(y.heapT)),
+    gpKv(t('gp_ps'),kbTxt(y.ps)+' / '+kbTxt(y.psT)),gpKv(t('gp_fl'),kbTxt(y.fl)),gpKv(t('gp_tmp'),y.tmp.toFixed(1)+' °C'),
+    gpKv(t('gp_rssi'),y.rssi?y.rssi+' dBm':'-'),gpKv(t('gp_cl'),String(y.cl)),
+    gpKv(t('gp_rst'),t(['bootPower','bootSw','bootCrash','bootBrown','bootOther'][y.rst]||'bootOther')));
+  body.append(sy);
+}
+/* ---------- SD card ---------- */
+let SDS=null,SDP='/',SDT=null;
+const SDERR={sys:'sd_eSys',nosd:'sd_eNo',exists:'sd_eExists',name:'sd_eName',path:'sd_eName',io:'sd_eIo',nodir:'sd_eIo',nofile:'sd_eIo',bad:'sd_eBad'};
+function sdErr(r){toast(t(SDERR[r&&r.err]||'err'))}
+function mbTxt(mb){return mb>=1024?(mb/1024).toFixed(1)+' GB':mb+' MB'}
+function sdSz(b){return b>=1048576?(b/1048576).toFixed(1)+' MB':b>=1024?Math.round(b/1024)+' KB':b+' B'}
+function bkTxt(n){const m=/^(\d{4})(\d\d)(\d\d)-(\d\d)(\d\d)(\d\d)$/.exec(n);return m?m[1]+'-'+m[2]+'-'+m[3]+'  '+m[4]+':'+m[5]:t('sd_noDate')+' ('+n+')'}
+function sdSheet(title,back){
+  clearTimeout(SDT);
+  const m=$('modal');m.classList.remove('hide');m.innerHTML='';
+  m.onclick=e=>{if(e.target===m){m.classList.add('hide');clearTimeout(SDT)}};
+  const sh=el('div','sheet');
+  const hd=el('div','rhead');const ico=el('div','ico');ico.innerHTML=icon('sd');
+  hd.append(ico,el('h2','',title));sh.append(hd);
+  const body=el('div');body.id='sdbody';sh.append(body);
+  const bk=el('button','btn sec2',t('back'));bk.style.cssText='width:100%;margin-top:10px';
+  bk.onclick=()=>{clearTimeout(SDT);back()};sh.append(bk);
+  m.append(sh);
+}
+let RMT=null;
+function rmClose(){clearTimeout(RMT);const m=$('modal');m.classList.add('hide')}
+async function openRemote(){
+  clearTimeout(RMT);
+  const m=$('modal');m.classList.remove('hide');m.innerHTML='';
+  m.onclick=e=>{if(e.target===m)rmClose()};
+  const sh=el('div','sheet');
+  const hd=el('div','rhead');const ico=el('div','ico');ico.innerHTML=icon('wifi');
+  hd.append(ico,el('h2','',t('rm_title')));sh.append(hd);
+  const body=el('div');body.id='rmbody';sh.append(body);
+  const bk=el('button','btn sec2',t('back'));bk.style.cssText='width:100%;margin-top:10px';
+  bk.onclick=()=>{clearTimeout(RMT);adminUI()};sh.append(bk);
+  m.append(sh);
+  await rmLoad();
+}
+async function rmAct(act,ask){
+  if(ask&&!confirm(ask))return;
+  let r;
+  try{r=await api('/api/remote','POST',{act:act})}catch(e){toast(t('err'));return}
+  if(r._s===409){toast(t('rm_needwifi'));return}
+  if(!r.ok){toast(t('err'));return}
+  if(act==='disable'||act==='unpair'||act==='cancel'){toast('...');setTimeout(rmLoad,6000);return}
+  await rmLoad();
+}
+async function fbSection(b){
+  let r;
+  try{r=await api('/api/fb')}catch(e){return}
+  if(!r.ok)return;
+  const s=sec(t('fb_title'),'wifi');
+  s.append(el('div','msg',t('fb_h')));
+  s.append(gpKv(t('sd_state'),r.en?(r.on?t('fb_on'):t('fb_connecting')):t('rm_off')));
+  if(r.err)s.append(el('div','msg err',r.err));
+  const un=el('input','fld');un.placeholder='https://xxxx-default-rtdb.firebaseio.com';un.value=r.url||'';un.style.direction='ltr';
+  const ky=el('input','fld');ky.placeholder=r.keyset?'••••••••••':t('fb_key');ky.style.direction='ltr';
+  const row=el('div');row.style.cssText='display:flex;flex-wrap:wrap;gap:8px;margin-top:10px';
+  const mk=(txt,cls,fn)=>{const x=el('button','btn '+cls,txt);x.onclick=fn;row.append(x)};
+  mk(t('save'),'',async()=>{const x=await api('/api/fb','POST',{act:'save',url:un.value.trim(),key:ky.value.trim()});toast(x.ok?t('saved'):t('err'));rmLoad()});
+  if(r.set){
+    if(!r.en)mk(t('fb_enable'),'',async()=>{await api('/api/fb','POST',{act:'enable'});rmLoad()});
+    else{
+      mk(t('fb_disable'),'sec2',async()=>{await api('/api/fb','POST',{act:'disable'});rmLoad()});
+      mk(t('fb_reset'),'bad',async()=>{if(!confirm(t('fb_resetH')))return;await api('/api/fb','POST',{act:'reset'});rmLoad()});
+    }
+  }
+  s.append(un,ky,row);b.append(s);
+}
+async function rmLoad(){
+  clearTimeout(RMT);
+  const b=$('rmbody');if(!b)return;
+  let r;
+  try{r=await api('/api/remote')}catch(e){RMT=setTimeout(rmLoad,3000);return}
+  if(!$('rmbody'))return;
+  if(!r.ok){toast(t('ac_noPerm'));return}
+  b.innerHTML='';
+  await fbSection(b);
+  const s=sec(t('rm_title'),'wifi');
+  s.append(el('div','msg',t('rm_h')));
+  if(!r.build){s.append(el('div','msg err',t('rm_nobuild')));b.append(s);return}
+  s.append(gpKv(t('sd_state'),r.pd?t('rm_paired'):(r.en?t('rm_notpaired'):t('rm_off'))));
+  const row=el('div');row.style.cssText='display:flex;flex-wrap:wrap;gap:8px;margin-top:10px';
+  const mk=(txt,cls,fn)=>{const x=el('button','btn '+cls,txt);x.onclick=fn;row.append(x);return x};
+  if(!r.en){
+    mk(t('rm_enable'),'',()=>rmAct('enable'));
+  }else{
+    if(r.pair){
+      s.append(el('div','msg',t('rm_pairing')));
+      s.append(gpKv(t('rm_btname'),r.svc||'-'));
+      s.append(gpKv(t('rm_pin'),r.pop||'-'));
+      s.append(el('div','msg',t('rm_steps')));
+      mk(t('rm_cancel'),'sec2',()=>rmAct('cancel',t('sure')));
+      RMT=setTimeout(rmLoad,2500);
+    }else{
+      if(!r.wifi)s.append(el('div','msg err',t('rm_needwifi')));
+      mk(r.pd?t('rm_repair'):t('rm_pair'),'',()=>rmAct('pair'));
+      if(r.pd){
+        s.append(el('div','msg',t('rm_googleH')));
+        mk(t('rm_unpair'),'bad',()=>rmAct('unpair',t('rm_unpairH')));
+      }
+      mk(t('rm_disable'),'sec2',()=>rmAct('disable',t('sure')));
+    }
+  }
+  s.append(row);
+  b.append(s);
+}
+async function openSd(){sdSheet(t('sd_title'),adminUI);await sdLoad()}
+async function sdLoad(){
+  clearTimeout(SDT);
+  const r=await api('/api/sd');
+  if(!$('sdbody'))return;
+  if(!r.ok){toast(t('ac_noPerm'));return}
+  SDS=r;sdRender();
+  if(r.scan.act)SDT=setTimeout(sdLoad,1200);
+}
+function sdRender(){
+  const b=$('sdbody');if(!b||!SDS)return;
+  if(!SDS.ok){toast(t('err'));return}
+  b.innerHTML='';
+  const s=SDS.sd;
+  const st=sec(t('sd_card'),'sd');
+  st.append(gpKv(t('sd_state'),s.on?t('sd_found'):t('sd_none')));
+  if(s.on)st.append(gpKv(t('sd_type'),['','MMC','SD','SDHC'][s.type]||'?'),gpKv(t('sd_size'),mbTxt(s.size)),gpKv(t('sd_used'),s.used>=0?mbTxt(s.used)+' / '+mbTxt(s.size):'-'));
+  const P=s.pins;
+  st.append(gpKv(t('sd_pins'),'CS '+P[0]+' · MOSI '+P[1]+' · SCK '+P[2]+' · MISO '+P[3]));
+  const row=el('div','row');row.style.flexWrap='wrap';
+  const b1=el('button','btn sm sec2',t('sd_check'));
+  b1.onclick=async()=>{b1.disabled=true;SDS=await api('/api/sd/mount','POST',{});sdRender()};
+  row.append(b1);
+  if(s.on){const b2=el('button','btn sm sec2',t('sd_space'));b2.onclick=async()=>{b2.disabled=true;toast('...');SDS=await api('/api/sd/space','POST',{});sdRender()};row.append(b2)}
+  st.append(row);
+  if(!s.on){
+    const sn=SDS.scan;
+    st.append(el('div','msg',sn.act?'':(sn.found?t('sd_scanOk'):(sn.n>0?t('sd_scanNo'):t('sd_noH')))));
+    const b3=el('button','btn sm sec2',sn.act?t('sd_scanning')+' '+sn.n+'/24':t('sd_scan'));
+    b3.disabled=sn.act;
+    b3.onclick=async()=>{if(!confirm(t('sd_scanH')))return;await api('/api/sd/scan','POST',{});sdLoad()};
+    st.append(b3);
+  }
+  b.append(st);
+  if(!s.on)return;
+  const sf=sec(t('sd_files'),'folder');
+  const bf=el('button','btn',t('sd_open'));bf.onclick=()=>{SDP='/';sdFiles()};
+  sf.append(bf);b.append(sf);
+  const sb=sec(t('sd_bk'),'sd');
+  sb.append(el('div','msg',t('sd_bkH')));
+  const bn=el('button','btn',t('sd_bkNow'));
+  bn.onclick=async()=>{bn.disabled=true;toast('...');const r=await api('/api/sd/backup','POST',{});if(r.ok){SDS=r;toast(t('sd_bkDone'));sdRender()}else{bn.disabled=false;sdErr(r)}};
+  sb.append(bn,el('div','msg',t('sd_bkAuto')));
+  sb.append(seg([[0,t('sd_off')],[1,t('sd_daily')],[7,t('sd_weekly')]],SDS.ab.d,async v=>{const r=await api('/api/sd/cfg','POST',{days:v});if(r.ok){SDS=r;sdRender()}else toast(t('err'))}));
+  if(SDS.ab.last>0)sb.append(gpKv(t('sd_bkLast'),new Date(SDS.ab.last*1000).toLocaleString()));
+  if(!SDS.bk.length)sb.append(el('div','msg',t('sd_bkEmpty')));
+  SDS.bk.forEach(n=>{
+    const r=el('div','fl');r.append(el('span','nm',bkTxt(n)));
+    const rs=el('button','btn sm sec2',t('sd_restore'));
+    rs.onclick=async()=>{if(!confirm(t('sd_restoreQ')))return;const q=await api('/api/sd/restore','POST',{n});if(q.ok){toast(t('sd_restoring'));$('modal').classList.add('hide')}else sdErr(q)};
+    const dl=el('button','btn sm bad',t('sd_del'));
+    dl.onclick=async()=>{if(!confirm(t('sd_delQ')))return;const q=await api('/api/sd/bkdel','POST',{n});if(q.ok){SDS=q;sdRender()}else sdErr(q)};
+    r.append(rs,dl);sb.append(r);
+  });
+  b.append(sb);
+}
+function sdUpOne(dir,f,onp){
+  return new Promise(res=>{
+    const x=new XMLHttpRequest();
+    x.open('POST','/api/sd/up?p='+encodeURIComponent(dir));
+    if(token)x.setRequestHeader('X-Token',token);
+    x.upload.onprogress=e=>{if(e.lengthComputable)onp(e.loaded/e.total)};
+    x.onload=()=>{let j={};try{j=JSON.parse(x.responseText)}catch(e){}res(j)};
+    x.onerror=()=>res({ok:false});
+    const fd=new FormData();fd.append('f',f,f.name);x.send(fd);
+  });
+}
+async function sdUpload(files){
+  if(!files.length)return;
+  const pg=$('sdprog');pg.classList.remove('hide');const bar=pg.firstChild;
+  let ok=0;
+  for(let k=0;k<files.length;k++){
+    const r=await sdUpOne(SDP,files[k],f=>{bar.style.width=Math.round((k+f)/files.length*100)+'%'});
+    if(r.ok)ok++;else sdErr(r);
+  }
+  toast(ok+' / '+files.length+' '+t('sd_uploaded'));
+  sdFiles();
+}
+async function sdDown(p,name){
+  const r=await fetch('/api/sd/get?p='+encodeURIComponent(p),{headers:token?{'X-Token':token}:{}});
+  if(!r.ok){toast(t('err'));return}
+  const bl=await r.blob();const u=URL.createObjectURL(bl);
+  const a=document.createElement('a');a.href=u;a.download=name;document.body.append(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(u),5000);
+}
+async function sdFiles(){
+  sdSheet(t('sd_files'),openSd);
+  const b=$('sdbody');
+  const r=await api('/api/sd/ls?p='+encodeURIComponent(SDP));
+  if(!$('sdbody'))return;
+  if(!r.ok){
+    if(r.err==='nosd'){openSd();return}
+    toast(t('err'));
+    if(SDP!=='/'){SDP='/';sdFiles()}else openSd();
+    return;
+  }
+  const sysDir=r.sys;
+  const pth=el('div','msg',SDP);pth.style.cssText='direction:ltr;font-weight:700';b.append(pth);
+  if(SDP!=='/'){const up=el('button','btn sm sec2','↑ '+t('sd_up'));up.onclick=()=>{SDP=SDP.replace(/\/[^\/]*$/,'')||'/';sdFiles()};b.append(up)}
+  if(sysDir)b.append(el('div','msg',t('sd_sysLock')));
+  else{
+    const dz=el('div','dz',t('sd_drop'));
+    const fi=document.createElement('input');fi.type='file';fi.multiple=true;fi.style.display='none';
+    dz.onclick=()=>fi.click();
+    dz.ondragover=e=>{e.preventDefault();dz.classList.add('over')};
+    dz.ondragleave=()=>dz.classList.remove('over');
+    dz.ondrop=e=>{e.preventDefault();dz.classList.remove('over');sdUpload([...e.dataTransfer.files])};
+    fi.onchange=()=>sdUpload([...fi.files]);
+    const pg=el('div','prog hide');pg.id='sdprog';pg.append(document.createElement('i'));
+    const mk=el('button','btn sm sec2','+ '+t('sd_mkdir'));
+    mk.onclick=async()=>{const n=prompt(t('sd_folderName'));if(!n)return;const q=await api('/api/sd/mkdir','POST',{p:SDP,n:n.trim()});if(q.ok)sdFiles();else sdErr(q)};
+    b.append(dz,fi,pg,mk);
+  }
+  const list=el('div');
+  const es=r.e.slice().sort((a,c)=>(c[1]-a[1])||a[0].localeCompare(c[0]));
+  if(!es.length)list.append(el('div','msg',t('sd_empty')));
+  es.forEach(e=>{
+    const full=(SDP==='/'?'':SDP)+'/'+e[0];
+    const lock=SDP==='/'&&e[0].toLowerCase()==='system';
+    const row=el('div','fl');
+    row.append(ic(e[1]?(lock?'pin':'folder'):'file','i'));
+    const nm=el('span','nm',e[0]);
+    if(e[1]){nm.style.cursor='pointer';nm.onclick=()=>{SDP=full;sdFiles()};row.append(nm)}
+    else{
+      row.append(nm,el('span','sz',sdSz(e[2])));
+      const d1=el('button','ic sm');d1.innerHTML=icon('down');d1.title=t('sd_dl');d1.onclick=()=>sdDown(full,e[0]);row.append(d1);
+    }
+    if(!sysDir&&!lock){
+      const d2=el('button','ic sm');d2.innerHTML=icon('trash');d2.title=t('sd_del');
+      d2.onclick=async()=>{if(!confirm(t('sd_delQ')+' '+e[0]))return;const q=await api('/api/sd/del','POST',{p:full});if(q.ok)sdFiles();else sdErr(q)};
+      row.append(d2);
+    }
+    list.append(row);
+  });
+  if(r.more)list.append(el('div','msg','…'));
+  b.append(list);
+}
+/* ---------- scrolling text on the OLED ---------- */
+const MQMAX=2400;
+const MQ={sp:2,rep:1,m:0};
+function mqRender(text){
+  const font='bold 22px system-ui,"Noto Sans Arabic","Segoe UI",Roboto,Arial,sans-serif';
+  const rtl=/[\u0590-\u08FF\uFB1D-\uFDFF\uFE70-\uFEFF]/.test(text);
+  const c0=document.createElement('canvas').getContext('2d');
+  c0.font=font;c0.direction=rtl?'rtl':'ltr';
+  const w=Math.max(8,Math.ceil(c0.measureText(text).width)+8);
+  if(w>MQMAX)return null;
+  const c=document.createElement('canvas');c.width=w;c.height=32;
+  const y=c.getContext('2d');
+  y.font=font;y.direction=rtl?'rtl':'ltr';y.textBaseline='middle';y.textAlign=rtl?'right':'left';
+  y.fillStyle='#000';y.fillRect(0,0,w,32);y.fillStyle='#fff';
+  y.fillText(text,rtl?w-4:4,17);
+  const px=y.getImageData(0,0,w,32).data;
+  const rb=Math.ceil(w/8),out=new Uint8Array(rb*32);
+  for(let r=0;r<32;r++)for(let q=0;q<w;q++)if(px[(r*w+q)*4]>110)out[r*rb+(q>>3)]|=0x80>>(q&7);
+  return{w,rtl,out};
+}
+function mqPreview(cv,g){
+  const x=cv.getContext('2d');
+  if(!g){cv.width=128;cv.height=32;x.fillStyle='#000';x.fillRect(0,0,128,32);return}
+  cv.width=g.w;cv.height=32;
+  const im=x.createImageData(g.w,32),rb=Math.ceil(g.w/8);
+  for(let r=0;r<32;r++)for(let q=0;q<g.w;q++){
+    const on=(g.out[r*rb+(q>>3)]>>(7-(q&7)))&1,k=(r*g.w+q)*4;
+    im.data[k]=im.data[k+1]=im.data[k+2]=on?255:0;im.data[k+3]=255;
+  }
+  x.putImageData(im,0,0);
+}
+function openMq(){
+  const m=$('modal');m.classList.remove('hide');m.innerHTML='';
+  m.onclick=e=>{if(e.target===m)m.classList.add('hide')};
+  const sh=el('div','sheet');
+  const hd=el('div','rhead');const ico=el('div','ico');ico.innerHTML=icon('msg');
+  hd.append(ico,el('h2','',t('mq_title')));sh.append(hd);
+  sh.append(el('div','msg',t('mq_h')));
+  const inp=el('input','fld');inp.maxLength=200;inp.placeholder=t('mq_ph');
+  const pv=document.createElement('canvas');pv.className='mqp';mqPreview(pv,null);
+  const info=el('div','msg');
+  let G=null;
+  inp.oninput=()=>{
+    const txt=inp.value.replace(/\s+/g,' ').trim();
+    G=txt?mqRender(txt):null;
+    mqPreview(pv,G);
+    info.textContent=!txt?'':(G?(G.w<=128?t('mq_fit'):t('mq_scroll')):t('mq_long'));
+    info.className=(txt&&!G)?'msg err':'msg';
+  };
+  function pick(opts,key){
+    const d=el('div','seg');
+    opts.forEach(o=>{const b=el('button',MQ[key]===o[0]?'on':'',o[1]);b.onclick=()=>{MQ[key]=o[0];[...d.children].forEach(x=>x.classList.remove('on'));b.classList.add('on')};d.append(b)});
+    return d;
+  }
+  const send=el('button','btn',t('mq_send'));
+  send.onclick=async()=>{
+    if(!G)return;
+    let bin='';for(let i=0;i<G.out.length;i+=4096)bin+=String.fromCharCode.apply(null,G.out.subarray(i,i+4096));
+    const r=await api('/api/oled/text','POST',{w:G.w,d:btoa(bin),sp:MQ.sp,rep:MQ.rep,rtl:G.rtl?1:0,mins:MQ.m});
+    toast(r.ok?t('mq_sent'):(r.err==='nooled'?t('mq_noOled'):t('err')));
+  };
+  const stop=el('button','btn sec2',t('mq_stop'));
+  stop.onclick=async()=>{await api('/api/oled/stop','POST',{});toast(t('mq_stopped'))};
+  const rw=el('div','row');rw.append(send,stop);
+  const sj=el('button','btn sec2',t('tx_sched'));sj.style.cssText='width:100%;margin-top:8px';sj.onclick=openTjobs;
+  sh.append(inp,pv,info,el('div','msg',t('mq_speed')),pick([[1,t('mq_slow')],[2,t('mq_med')],[3,t('mq_fast')]],'sp'),
+    el('div','msg',t('mq_rep')),pick([[1,'1×'],[3,'3×'],[5,'5×'],[0,'∞']],'rep'),el('div','msg',t('tx_for')),pick([[0,t('tx_until')],[5,'5 '+t('tx_min')],[15,'15 '+t('tx_min')],[30,'30 '+t('tx_min')],[60,'60 '+t('tx_min')]],'m'),rw,sj);
+  const cl=el('button','btn sec2',t('close'));cl.style.cssText='width:100%;margin-top:10px';cl.onclick=()=>m.classList.add('hide');
+  sh.append(cl);m.append(sh);
+}
+/* ---------- scheduled scrolling texts ---------- */
+let TJ=null,TE=null;
+function cutB(s,n){const e=new TextEncoder();let o='',b=0;for(const c of s){const l=e.encode(c).length;if(b+l>n)break;o+=c;b+=l}return o}
+async function openTjobs(){
+  const r=await api('/api/tjobs');
+  if(r._s===401){loginUI(openTjobs,P_VIEW);return}
+  if(!r.ok){toast(t('ac_noPerm'));return}
+  TJ=r;tjList();
+}
+async function tjPost(path,b){
+  const r=await api(path,'POST',b);
+  if(r._s===401){loginUI(openTjobs,P_SCHED);return null}
+  if(r._s===403){toast(t('ac_noPerm'));return null}
+  if(!r.ok){toast(r.err==='nofs'?t('tx_nofs'):r.err==='full'?t('tx_full'):r.err==='nooled'?t('mq_noOled'):t('err'));return null}
+  return r;
+}
+function tjWhen(j){
+  if(!j.d){const lt=Math.floor(j.o/60)+TJ.tzo;return dateTxt(Math.floor(lt/1440))+' '+hm(((lt%1440)+1440)%1440)}
+  return hm(j.s)+' \u00b7 '+daysTxt(j.d);
+}
+function tjBody(j,o){return Object.assign({i:j.i,e:j.e,dy:j.d,sp:j.sp,s:j.s,m:j.m,o:j.o,l:j.l},o||{})}
+function tjList(){
+  const m=$('modal');m.classList.remove('hide');m.innerHTML='';
+  m.onclick=e=>{if(e.target===m)m.classList.add('hide')};
+  const sh=el('div','sheet');
+  const hd=el('div','rhead');
+  const add=el('button','mp big');add.innerHTML=icon('plus');
+  add.onclick=()=>{
+    if(TJ.list.length>=TJ.max){toast(t('tx_full'));return}
+    const n=new Date(Date.now()+10*60000);
+    const pad=x=>String(x).padStart(2,'0');
+    TE={i:-1,txt:'',G:null,sp:2,mode:'rep',d:127,date:n.getFullYear()+'-'+pad(n.getMonth()+1)+'-'+pad(n.getDate()),s:n.getHours()*60+n.getMinutes(),m:10,e:1};
+    tjEdit();
+  };
+  hd.append(el('h2','',t('tx_jobs')));if(can(P_SCHED))hd.append(add);sh.append(hd);
+  if(!TJ.tv)sh.append(el('div','warn2',t('noTime')));
+  if(!TJ.fs)sh.append(el('div','warn2',t('tx_nofs')));
+  if(!TJ.oled)sh.append(el('div','warn2',t('mq_noOled')));
+  if(!TJ.list.length)sh.append(el('div','msg',t('tx_empty')));
+  TJ.list.forEach(j=>{
+    const c=el('div','sc'+(j.e?'':' off'));
+    const ico=el('div','ico');ico.innerHTML=icon('msg');
+    if(j.e){ico.style.background='var(--acc)';ico.style.color='var(--onacc)'}
+    const mid=el('div','mid');
+    mid.append(el('div','t1',j.l||'#'+(j.i+1)),el('div','t2',tjWhen(j)+' \u00b7 '+j.m+' '+t('tx_min')));
+    c.append(ico,mid);
+    if(can(P_ALL)){
+      const pb=el('button','mp');pb.innerHTML=icon('play');
+      pb.onclick=async e=>{e.stopPropagation();const r=await tjPost('/api/tjobs/run',{i:j.i});if(r)toast(t('mq_sent'))};
+      c.append(pb);
+    }
+    const sw=el('button','sw'+(j.e?' on':''));sw.append(el('i'));sw.disabled=!can(P_SCHED);
+    sw.onclick=async e=>{e.stopPropagation();const r=await tjPost('/api/tjobs',tjBody(j,{e:j.e?0:1}));if(r){TJ=r;tjList()}};
+    c.append(sw);
+    if(can(P_SCHED))c.onclick=()=>{
+      let date='',s=j.s;
+      if(!j.d){const dt=new Date(j.o*1000);const pad=x=>String(x).padStart(2,'0');date=dt.getFullYear()+'-'+pad(dt.getMonth()+1)+'-'+pad(dt.getDate());s=dt.getHours()*60+dt.getMinutes()}
+      TE={i:j.i,txt:j.l,l0:j.l,G:null,sp:j.sp,mode:j.d?'rep':'once',d:j.d||127,date:date,s:s,m:j.m,e:j.e};
+      tjEdit();
+    };
+    sh.append(c);
+  });
+  const bk=el('button','btn sec2',t('back'));bk.style.cssText='width:100%;margin-top:10px';bk.onclick=openMq;
+  sh.append(bk);m.append(sh);
+}
+function tjEdit(){
+  const m=$('modal');m.innerHTML='';
+  const sh=el('div','sheet');
+  sh.append(el('h2','',TE.i<0?t('tx_new'):t('tx_edit')));
+  const inp=el('input','fld');inp.maxLength=60;inp.placeholder=t('mq_ph');inp.value=TE.txt;
+  const pv=document.createElement('canvas');pv.className='mqp';mqPreview(pv,TE.G);
+  const info=el('div','msg');
+  inp.oninput=()=>{
+    const tx=inp.value.replace(/\s+/g,' ').trim();
+    TE.txt=tx;TE.G=tx?mqRender(tx):null;mqPreview(pv,TE.G);
+    info.textContent=(tx&&!TE.G)?t('mq_long'):'';info.className=(tx&&!TE.G)?'msg err':'msg';
+  };
+  sh.append(inp,pv,info);
+  sh.append(el('div','msg',t('mq_speed')),seg([[1,t('mq_slow')],[2,t('mq_med')],[3,t('mq_fast')]],TE.sp,v=>{TE.sp=v;tjEdit()}));
+  sh.append(seg([['rep',t('tx_repeat')],['once',t('tx_once')]],TE.mode,v=>{TE.mode=v;tjEdit()}));
+  if(TE.mode==='once'){
+    const di=el('input','fld');di.type='date';di.value=TE.date;di.onchange=()=>{TE.date=di.value};
+    sh.append(el('div','msg',t('tx_date')),di);
+  }else{
+    const dc=el('div','chips');
+    const ev=el('button','chip'+(TE.d===127?' on':''),t('everyDay'));
+    ev.onclick=()=>{TE.d=TE.d===127?0:127;tjEdit()};dc.append(ev);
+    DAYN[lang].forEach((n,i)=>{const b=el('button','chip'+((TE.d>>i)&1?' on':''),n);b.onclick=()=>{TE.d^=(1<<i);tjEdit()};dc.append(b)});
+    sh.append(el('div','msg',t('days')),dc);
+  }
+  const ti=el('input','fld');ti.type='time';ti.value=hm(TE.s);
+  ti.onchange=()=>{const q=ti.value.split(':');if(q.length===2)TE.s=(+q[0])*60+(+q[1])};
+  sh.append(el('div','msg',t('tx_time')),ti);
+  const dc2=el('div','chips');
+  [1,5,10,15,30,60,120].forEach(v=>{const b=el('button','chip'+(TE.m===v?' on':''),v+' '+t('tx_min'));b.onclick=()=>{TE.m=v;tjEdit()};dc2.append(b)});
+  sh.append(el('div','msg',t('tx_dur')),dc2);
+  const row=el('div','row');
+  const bk=el('button','btn sec2',t('back'));bk.onclick=tjList;
+  const sv=el('button','btn',t('save'));sv.style.flex='1';
+  sv.onclick=async()=>{
+    const G=TE.G;
+    if(TE.i<0&&!G){toast(t('tx_needText'));return}
+    const b={i:TE.i,e:TE.e,sp:TE.sp,s:TE.s,m:TE.m,l:cutB(TE.txt,31)||TE.l0||''};
+    if(TE.mode==='once'){
+      const ep=Math.floor(new Date(TE.date+'T'+hm(TE.s)+':00').getTime()/1000);
+      if(!(ep>Date.now()/1000)){toast(t('tx_past'));return}
+      b.dy=0;b.o=ep;
+    }else{
+      if(!TE.d){toast(t('pickDay'));return}
+      b.dy=TE.d;b.o=0;
+    }
+    if(G){
+      let bin='';for(let i=0;i<G.out.length;i+=4096)bin+=String.fromCharCode.apply(null,G.out.subarray(i,i+4096));
+      b.w=G.w;b.d=btoa(bin);b.rtl=G.rtl?1:0;
+    }
+    const r=await tjPost('/api/tjobs',b);
+    if(r){TJ=r;toast(t('saved'));tjList()}
+  };
+  row.append(bk,sv);
+  if(TE.i>=0){
+    const dl=el('button','btn bad sm');dl.innerHTML=icon('trash');dl.style.fontSize='20px';
+    dl.onclick=async()=>{if(!confirm(t('sure')))return;const r=await tjPost('/api/tjobs/del',{i:TE.i});if(r){TJ=r;tjList()}};
+    row.append(dl);
+  }
+  sh.append(row);m.append(sh);
+}
+/* ---------- scenes, vacation mode, event log ---------- */
+const SCI=['sun','moon','star','book','tv','bed','sofa','bolt'];
+let scSig='',SCN=null,SED=null,VAC=null,VH=48,LG=null,LGF='all';
+function updScenes(){
+  const sc=S.sc||[];
+  const row=$('scs'),tt=$('scsec');
+  if(row){
+    const sg=lang+'|'+sc.map(x=>x.i+':'+x.n+':'+x.ic).join('|');
+    if(sg!==scSig){
+      scSig=sg;row.innerHTML='';
+      sc.forEach(x=>{const b=el('button','scc');b.append(ic(SCI[x.ic]||'star'),document.createTextNode(x.n));b.onclick=()=>applyScene(x.i);row.append(b)});
+    }
+    row.classList.toggle('hide',!sc.length);tt.classList.toggle('hide',!sc.length);
+  }
+  const vb=$('vbar');
+  if(vb){
+    vb.classList.toggle('hide',!(S.vac||S.vp)||!can(P_VIEW));
+    if(S.vac){$('vbt').textContent=t('vacOn');$('vbl').textContent=S.vl!==undefined?t('vacLeft')+' '+fmtDur(S.vl):''}
+    else if(S.vp){$('vbt').textContent=t('vac_planned');$('vbl').textContent=''}
+  }
+}
+async function applyScene(i){
+  const r=await api('/api/scene','POST',{i:i});
+  if(r.ch){S=r;dashUpdate();toast(t('sceneApplied'))}else toast(t('err'));
+}
+function openScenes(){
+  openR=null;
+  const m=$('modal');m.classList.remove('hide');m.innerHTML='';
+  m.onclick=e=>{if(e.target===m)m.classList.add('hide')};
+  scenesHub();
+  api('/api/vac').then(r=>{if(r.ok){VAC=r;if(!$('modal').classList.contains('hide')&&$('hubvac'))scenesHub()}});
+}
+function scenesHub(){
+  const m=$('modal');m.innerHTML='';
+  const sh=el('div','sheet');
+  const hd=el('div','rhead');
+  const add=el('button','mp big');add.innerHTML=icon('plus');
+  add.onclick=()=>startScene(-1);
+  hd.append(el('h2','',t('scenes')));if(can(P_EDIT))hd.append(add);sh.append(hd);
+  const sc=S.sc||[];
+  if(!sc.length)sh.append(el('div','msg',t('noScenes')));
+  sc.forEach(x=>{
+    const c=el('div','sc');
+    const ico=el('div','ico');ico.innerHTML=icon(SCI[x.ic]||'star');
+    ico.style.background='var(--acc)';ico.style.color='var(--onacc)';
+    const mid=el('div','mid');mid.append(el('div','t1',x.n),el('div','t2',t('tapApply')));
+    const eb=el('button','mp');eb.innerHTML=icon('gear');
+    eb.onclick=e=>{e.stopPropagation();startScene(x.i)};
+    c.append(ico,mid);if(can(P_EDIT))c.append(eb);
+    c.onclick=()=>applyScene(x.i).then(scenesHub);
+    sh.append(c);
+  });
+  const vc=vacCard();vc.id='hubvac';sh.append(vc);
+  if(can(P_LOG)){const lb=el('button','btn sec2',t('logT'));lb.style.width='100%';lb.style.marginTop='6px';
+    lb.onclick=openLog;sh.append(lb)}
+  const cl=el('button','btn sec2',t('close'));cl.style.width='100%';cl.style.marginTop='10px';
+  cl.onclick=()=>m.classList.add('hide');
+  sh.append(cl);m.append(sh);
+}
+/* --- scene editor --- */
+async function startScene(i){
+  if(!can(P_EDIT)){loginUI(()=>startScene(i),P_EDIT);return}
+  const r=await api('/api/scenes');
+  if(r._s===401){loginUI(()=>startScene(i),P_EDIT);return}
+  if(!r.ok){toast(t('err'));return}
+  SCN=r;
+  if(i<0){
+    if(r.list.length>=r.max){toast(t('maxScenes'));return}
+    SED={i:-1,n:'',ic:0,st:[0,0,0,0,0,0,0,0],b:[0,0,0,0,0,0,0,0]};
+  }else{
+    const x=r.list[i];if(!x){scenesHub();return}
+    SED={i:i,n:x.n,ic:x.ic,st:x.st.slice(),b:x.b.slice()};
+  }
+  sceneEdit();
+}
+function sceneEdit(){
+  const m=$('modal');m.innerHTML='';
+  const sh=el('div','sheet');
+  sh.append(el('h2','',SED.i<0?t('newScene'):t('editScene')));
+  const s1=sec(t('sceneName'),'scene');
+  const ni=el('input','fld');ni.maxLength=18;ni.value=SED.n;ni.oninput=()=>{SED.n=ni.value};
+  s1.append(ni);
+  const ics=el('div','chips');
+  SCI.forEach((n,k)=>{const b=el('button','chip ci'+(SED.ic===k?' on':''));b.innerHTML=icon(n);b.onclick=()=>{SED.ic=k;sceneEdit()};ics.append(b)});
+  s1.append(ics);sh.append(s1);
+  const s2=sec(t('lightsT'),'bulb');
+  const cp=el('button','btn sm sec2',t('capture'));
+  cp.onclick=()=>{S.ch.forEach(c=>{SED.st[c.i]=c.on?2:1;SED.b[c.i]=c.on?c.b:0});toast(t('capDone'));sceneEdit()};
+  s2.append(cp);
+  S.rooms.forEach(r=>{
+    if(r.ch.length>1)s2.append(el('div','grp',r.n));
+    r.ch.forEach(i=>{
+      const row=el('div','lrow');
+      row.append(el('div','ln',r.ch.length>1?S.ch[i].n:r.n));
+      row.append(seg([[0,t('stKeep')],[1,t('stOff')],[2,t('stOn')]],SED.st[i],v=>{SED.st[i]=v;if(v===2&&SED.b[i]===0)SED.b[i]=0;sceneEdit()}));
+      if(SED.st[i]===2){
+        const keep=el('button','chip'+(SED.b[i]===0?' on':''),t('keepBri'));
+        keep.style.marginTop='8px';
+        keep.onclick=()=>{SED.b[i]=SED.b[i]===0?100:0;sceneEdit()};
+        row.append(keep);
+        if(SED.b[i]>0){
+          const st=el('div','msg',t('briL')+' '+SED.b[i]+'%');
+          const sl=document.createElement('input');sl.type='range';sl.min=1;sl.max=100;sl.value=SED.b[i];sl.style.setProperty('--v',SED.b[i]+'%');sl.style.opacity=1;
+          sl.oninput=()=>{SED.b[i]=+sl.value;sl.style.setProperty('--v',sl.value+'%');st.textContent=t('briL')+' '+sl.value+'%'};
+          row.append(st,sl);
+        }
+      }
+      s2.append(row);
+    });
+  });
+  sh.append(s2);
+  const out=el('div','msg err');sh.append(out);
+  const row=el('div','row');
+  const sv=el('button','btn',t('save'));sv.style.flex='1';
+  sv.onclick=async()=>{
+    const nm=SED.n.trim();
+    if(!nm){out.textContent=t('needName');return}
+    if(!SED.st.some(v=>v>0)){out.textContent=t('pickAny');return}
+    const o={n:nm,ic:SED.ic,st:SED.st.slice(),b:SED.st.map((v,i)=>v===2?SED.b[i]:0)};
+    const list=SCN.list.slice();
+    if(SED.i<0)list.push(o);else list[SED.i]=o;
+    if(await saveScenes(list))scenesHub();
+  };
+  const bk=el('button','btn sec2',t('back'));bk.onclick=scenesHub;
+  row.append(bk,sv);
+  if(SED.i>=0){
+    const dl=el('button','btn bad sm');dl.innerHTML=icon('trash');dl.style.fontSize='20px';
+    dl.onclick=async()=>{const list=SCN.list.filter((x,j)=>j!==SED.i);if(await saveScenes(list))scenesHub()};
+    row.append(dl);
+  }
+  sh.append(row);m.append(sh);
+}
+async function saveScenes(list){
+  const r=await api('/api/scenes','POST',{list:list});
+  if(r._s===401){loginUI(()=>startScene(SED?SED.i:-1),P_EDIT);return false}
+  if(!r.ok){toast(t('err'));return false}
+  SCN=r;
+  const st=await api('/api/state');if(st.ch){S=st;if(!S.rooms)S.rooms=S.ch.map(c=>({id:c.i,n:c.n,ch:[c.i]}));dashUpdate()}
+  toast(t('saved'));return true;
+}
+/* --- vacation mode --- */
+function durTxt(h){return h<24?h+' '+t('hr'):(h/24)+' '+t('dayU')}
+function dtTxt(e){return new Date(e*1000).toLocaleString(lang==='ar'?'ar':'en',{dateStyle:'medium',timeStyle:'short'})}
+let VF='',VT='';
+async function vacSend(b,okMsg){
+  if(!can(P_EDIT)){loginUI(openScenes,P_EDIT);return}
+  const r=await api('/api/vac','POST',b);
+  if(r._s===401){loginUI(openScenes,P_EDIT);return}
+  if(r.ok){VAC=r;toast(okMsg);const st=await api('/api/state');if(st.ch){S=st;dashUpdate()}scenesHub()}
+  else toast(r.err==='time'?t('vacNoTime'):r.err==='range'?t('vac_range'):t('err'));
+}
+function vacCard(){
+  const c=sec(t('vacT'),'plane');
+  c.append(el('div','msg',t('vacH')));
+  if(!VAC){c.append(el('div','msg','...'));return c}
+  const v=VAC;
+  if(v.active){
+    const lv=el('div','live');lv.append(el('i'),el('span','',t('vacOn')+' \u00b7 '+t('vacLeft')),el('b','',fmtDur(v.left)));
+    c.append(lv);
+    if(v.end)c.append(el('div','msg',t('vac_ends')+': '+dtTxt(v.end)));
+    if(can(P_EDIT)){
+      const sp=el('button','btn bad',t('vacStop'));sp.style.width='100%';
+      sp.onclick=()=>vacSend({stop:true},t('vacStopped'));
+      c.append(sp);
+    }
+  }else if(v.from){
+    c.append(el('div','warn2',t('vac_planned')+': '+dtTxt(v.from)+' '+ARW()+' '+dtTxt(v.end)));
+    if(can(P_EDIT)){
+      const sp=el('button','btn bad',t('vac_cancel'));sp.style.width='100%';
+      sp.onclick=()=>vacSend({stop:true},t('vacStopped'));
+      c.append(sp);
+    }
+  }else if(!can(P_EDIT)){
+    c.append(el('div','msg',t('vac_adminOnly')));
+  }else{
+    if(!v.tv)c.append(el('div','warn2',t('vacNoTime')));
+    else if(!v.slots||!v.mask)c.append(el('div','warn2',t('vacNone')));
+    else{
+      c.append(el('div','msg',t('vacLearn')+' '+v.days+' '+t('dayU')));
+      if(v.days<7)c.append(el('div','warn2',t('vacLow')));
+    }
+    c.append(el('div','grp',t('vac_plan')));
+    const f1=el('input','fld');f1.type='datetime-local';f1.value=VF;f1.onchange=()=>{VF=f1.value};
+    const f2=el('input','fld');f2.type='datetime-local';f2.value=VT;f2.onchange=()=>{VT=f2.value};
+    c.append(el('div','msg',t('vac_from')),f1,el('div','msg',t('vac_to')),f2);
+    const pb=el('button','btn',t('vac_planBtn'));pb.style.width='100%';pb.style.marginTop='8px';
+    pb.disabled=!v.tv||!v.mask;
+    pb.onclick=()=>{
+      VF=f1.value;VT=f2.value;
+      if(!VT){toast(t('vac_range'));return}
+      const to=Math.floor(new Date(VT).getTime()/1000);
+      const from=VF?Math.floor(new Date(VF).getTime()/1000):0;
+      if(!(to>Date.now()/1000)||(from&&to<=from)){toast(t('vac_range'));return}
+      vacSend({from:from,to:to},t('vacStarted'));
+    };
+    c.append(pb);
+    c.append(el('div','grp',t('vac_or')));
+    const ch=el('div','chips');
+    [6,12,24,48,72,120,168,336].forEach(h=>{const b=el('button','chip'+(VH===h?' on':''),durTxt(h));b.onclick=()=>{VH=h;scenesHub()};ch.append(b)});
+    c.append(ch);
+    const go=el('button','btn sec2',t('vacStart'));go.style.width='100%';go.style.marginTop='8px';
+    go.disabled=!v.tv||!v.mask;
+    go.onclick=()=>vacSend({hours:VH},t('vacStarted'));
+    c.append(go);
+  }
+  c.append(el('div','msg',t('vacNote')));
+  return c;
+}
+/* --- event log --- */
+async function openLog(){
+  if(!can(P_LOG)){loginUI(openLog,P_LOG);return}
+  const r=await api('/api/log');
+  if(r._s===401){loginUI(openLog,P_LOG);return}
+  if(!r.ok){toast(t('err'));return}
+  LG=r;logRender();
+}
+function evWhen(ts){
+  if(!ts)return t('logNoTime');
+  const z=S.tzo||0;
+  const lt=Math.floor(ts/60)+z;
+  const day=Math.floor(lt/1440),mod=((lt%1440)+1440)%1440;
+  const nowL=Math.floor((S.t||Date.now()/1000)/60)+z;
+  const td=Math.floor(nowL/1440);
+  if(day===td)return hm(mod);
+  if(day===td-1)return t('yday')+' '+hm(mod);
+  return dateTxt(day)+' '+hm(mod);
+}
+function evInfo(e){
+  const ty=e[1],arg=e[2],val=e[3];
+  if(ty===1){const c=S.ch[arg];return{ic:'bulb',on:val>0,tx:(c?c.n:'#'+(arg+1))+' · '+(val>0?t('evOn')+' '+val+'%':t('evOff'))}}
+  if(ty===2){const r=S.rooms.find(x=>x.id===arg);return{ic:'room',on:val>0,tx:(r?r.n:'#'+(arg+1))+' · '+(val?t('evOn'):t('evOff'))}}
+  if(ty===3)return{ic:'power',on:val>0,tx:val?t('evAllOn'):t('evAllOff')};
+  if(ty===4){const x=(S.sc||[]).find(q=>q.i===arg);return{ic:x?(SCI[x.ic]||'star'):'scene',on:true,tx:t('evScene')+' · '+(x?x.n:'#'+(arg+1))}}
+  if(ty===5)return{ic:'clock',on:val>0,tx:(val?t('evSchedOn'):t('evSchedOff'))+' · '+targetsTxt(arg)};
+  if(ty===6)return{ic:'plane',on:val===1,tx:val===1?t('evVacStart'):val===2?t('evVacEnd'):t('evVacStop')};
+  if(ty===7){const k=['bootPower','bootSw','bootCrash','bootBrown','bootOther'][val]||'bootOther';return{ic:'chip',on:val===2,tx:t('evBoot')+' · '+t(k)}}
+  return{ic:'log',on:false,tx:'?'};
+}
+function logRender(){
+  const m=$('modal');m.innerHTML='';
+  const sh=el('div','sheet');
+  sh.append(el('h2','',t('logT')));
+  const fl=[['all',t('logAll')],['man',t('logManual')],['auto',t('logAuto')],['sys',t('logSys')]];
+  sh.append(seg(fl,LGF,v=>{LGF=v;logRender()}));
+  const SRCN=[t('srcApp'),t('srcWall'),t('srcSched'),t('srcAuto'),t('srcScene'),t('srcVac'),t('srcSys'),t('srcRemote')];
+  const grp=s=>(s<=1||s===7)?'man':s===6?'sys':'auto';
+  const rows=LG.e.filter(e=>LGF==='all'||grp(e[4])===LGF);
+  if(!rows.length)sh.append(el('div','msg',t('logEmpty')));
+  const box=el('div','sec');
+  rows.forEach(e=>{
+    const f=evInfo(e);
+    const r=el('div','ev');
+    const ico=el('div','ico');ico.innerHTML=icon(f.ic);
+    if(f.on){ico.style.background='var(--acc)';ico.style.color='var(--onacc)'}
+    const mid=el('div','mid');
+    const wh=e[5]===255?t('ac_delAcc'):(e[5]?((LG.an||[])[e[5]-1]||(e[5]===1?t('ac_adminDef'):'')):'');
+    mid.append(el('div','t1',f.tx),el('div','t2',(wh?wh+' · ':'')+(SRCN[e[4]]||'')+' · '+evWhen(e[0])));
+    r.append(ico,mid);box.append(r);
+  });
+  if(rows.length)sh.append(box);
+  const row=el('div','row');
+  const bk=el('button','btn sec2',t('back'));bk.onclick=scenesHub;
+  row.append(bk);
+  if(LG.e.length&&S.adm){
+    const cb=el('button','btn bad sm',t('logClear'));
+    cb.onclick=async()=>{
+      if(!confirm(t('sure')))return;
+      const r=await api('/api/log/clear','POST',{});
+      if(r.ok){LG.e=[];logRender()}else toast(t('err'));
+    };
+    row.append(cb);
+  }
+  sh.append(row);m.append(sh);
+}
+/* ---------- setup wizard ---------- */
+const W={step:0,pin:'',pin2:'',ssid:'',pass:'',apS:'Smart-Light',apP:'',fbUrl:'',fbKey:'',names:[]};
+for(let i=0;i<8;i++)W.names.push((lang==='ar'?'غرفة ':'Room ')+(i+1));
+function wizShow(){
+  look();
+  const a=$('app');a.innerHTML='';
+  const box=el('div','wiz');a.append(box);
+  const dots=el('div','dots');
+  for(let i=0;i<7;i++){const d=document.createElement('i');if(i<=W.step)d.className='d';dots.append(d)}
+  box.append(dots);
+  const lg=el('div','logo');lg.innerHTML=icon('bulb');box.append(lg);
+  const nav=el('div','nav');
+  const bb=el('button','btn sec2',t('back'));bb.onclick=()=>{W.step--;wizShow()};
+  const bn=el('button','btn',t('next'));
+  const msg=el('div','msg err');
+  const s=W.step;
+  if(s===0){
+    box.append(el('h2','',t('wTitle')),el('p','',t('wText')));
+    const r=el('div','row');
+    const b1=el('button','btn sec2 sm',t('lang'));b1.onclick=()=>{lang=lang==='ar'?'en':'ar';localStorage.setItem('lang',lang);wizShow()};
+    const b2=el('button','btn sec2 sm',t('theme'));b2.onclick=()=>{theme=THEMES[(THEMES.indexOf(theme)+1)%THEMES.length];localStorage.setItem('theme',theme);look()};
+    r.append(b1,b2);box.append(r);
+    bn.onclick=()=>{W.step=1;wizShow()};
+    nav.append(el('span'),bn);
+  }else if(s===1){
+    box.append(el('h2','',t('wPin')),el('p','',t('wPinH')));
+    const p1=el('input','fld');p1.type='password';p1.maxLength=32;p1.value=W.pin;p1.oninput=()=>W.pin=p1.value;
+    const p2=el('input','fld');p2.type='password';p2.maxLength=32;p2.placeholder=t('pin2');p2.value=W.pin2;p2.oninput=()=>W.pin2=p2.value;
+    box.append(p1,p2,msg);
+    bn.onclick=()=>{
+      if(W.pin.length<4||W.pin.length>32){msg.textContent=t('pinBad');return}
+      if(W.pin!==W.pin2){msg.textContent=t('pinMis');return}
+      W.step=2;wizShow();
+    };
+    nav.append(bb,bn);
+  }else if(s===2){
+    box.append(el('h2','',t('wWifi')));
+    const sel=el('select','fld');
+    const sc=el('button','btn sm sec2',t('scan'));sc.onclick=()=>scanInto(sel,sc);
+    const pw=el('input','fld');pw.type='password';pw.placeholder=t('pass');pw.value=W.pass;pw.oninput=()=>W.pass=pw.value;
+    sel.onchange=()=>W.ssid=sel.value;
+    if(W.ssid){const o=document.createElement('option');o.value=W.ssid;o.textContent=W.ssid;sel.append(o)}
+    box.append(sc,sel,pw);
+    bn.onclick=()=>{if(sel.value)W.ssid=sel.value;W.step=3;wizShow()};
+    const sk=el('button','btn sec2',t('skip'));sk.onclick=()=>{W.ssid='';W.pass='';W.step=3;wizShow()};
+    nav.append(bb,sk,bn);
+  }else if(s===3){
+    box.append(el('h2','',t('wOwn')),el('p','',t('wOwnH')));
+    const a1=el('input','fld');a1.placeholder=t('ssid');a1.value=W.apS;a1.oninput=()=>W.apS=a1.value;
+    const a2=el('input','fld');a2.type='password';a2.placeholder=t('pwHint');a2.value=W.apP;a2.oninput=()=>W.apP=a2.value;
+    box.append(a1,a2,msg);
+    bn.onclick=()=>{
+      if(W.apP.length<8){msg.textContent=t('pwHint');return}
+      if(!W.apS.trim()){msg.textContent=t('ssid');return}
+      W.step=4;wizShow();
+    };
+    nav.append(bb,bn);
+  }else if(s===4){
+    box.append(el('h2','',t('wFb')),el('p','',t('wFbH')));
+    const f1=el('input','fld');f1.placeholder='https://xxxx-default-rtdb.firebaseio.com';f1.value=W.fbUrl;f1.style.direction='ltr';f1.oninput=()=>W.fbUrl=f1.value;
+    const f2=el('input','fld');f2.placeholder=t('fb_key');f2.value=W.fbKey;f2.style.direction='ltr';f2.oninput=()=>W.fbKey=f2.value;
+    box.append(f1,f2,msg);
+    bn.onclick=()=>{
+      const u=W.fbUrl.trim(),k=W.fbKey.trim();
+      if(u||k){
+        if(!/^https:\/\//.test(u)){msg.textContent=t('wFbBad');return}
+        if(k.length<10){msg.textContent=t('wFbBad');return}
+      }
+      W.step=5;wizShow();
+    };
+    const sk=el('button','btn sec2',t('skip'));sk.onclick=()=>{W.fbUrl='';W.fbKey='';W.step=5;wizShow()};
+    nav.append(bb,sk,bn);
+  }else if(s===5){
+    box.append(el('h2','',t('wRooms')),el('p','',t('wRoomsH')));
+    for(let i=0;i<8;i++){
+      const row=el('div','row');
+      const ri=el('div','rico');ri.innerHTML=icon(roomIcon(W.names[i]));
+      const n=el('input','fld');n.maxLength=24;n.value=W.names[i];n.oninput=()=>{W.names[i]=n.value;ri.innerHTML=icon(roomIcon(n.value))};
+      const out=el('div','msg');
+      row.append(ri,n,pairButton(i,out));
+      box.append(row,out);
+    }
+    bn.onclick=()=>{W.step=6;wizShow()};
+    nav.append(bb,bn);
+  }else{
+    box.append(el('h2','',t('fin')));
+    box.append(msg);
+    const go=el('button','btn',t('fin'));
+    go.onclick=async()=>{
+      go.disabled=true;
+      const r=await api('/api/setup','POST',{pw:W.pin,ssid:W.ssid,pass:W.pass,apSsid:W.apS.trim(),apPass:W.apP,fbUrl:W.fbUrl.trim(),fbKey:W.fbKey.trim(),names:W.names.map(x=>x.trim())});
+      if(r.ok){
+        box.innerHTML='';
+        box.append(el('h2','',t('fin')),el('p','',t('done')));
+        const u=el('p','','http://smartlight.local');u.style.color='var(--acc)';u.dir='ltr';
+        box.append(u);
+        clearInterval(pollTimer);
+      }else{msg.textContent=t('err');go.disabled=false}
+    };
+    nav.append(bb,go);
+  }
+  box.append(nav);
+}
+look();
+poll();
+const pollTimer=setInterval(poll,1500);
+</script>
+</body>
+</html>
